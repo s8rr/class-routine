@@ -33,7 +33,9 @@
         { "time": "08:30 AM - 09:20 AM", "subject": "IEE", "teacher": "KMAY", "room": "405" },
         { "time": "09:45 AM - 10:35 AM", "subject": "DIC", "teacher": "KLD", "room": "404" },
         { "time": "11:00 AM - 11:50 AM", "subject": "GE", "teacher": "RMA", "room": "404" }
-      ]
+      ],
+      "Thursday": [],
+      "Friday": []
     },
     "1B": {
       "Saturday": [
@@ -57,7 +59,9 @@
         { "time": "08:30 AM - 09:20 AM", "subject": "GE", "teacher": "RMA", "room": "404" },
         { "time": "09:45 AM - 10:35 AM", "subject": "PFL", "teacher": "MH", "room": "606" },
         { "time": "11:00 AM - 11:50 AM", "subject": "IEEL", "teacher": "CFK", "room": "506" }
-      ]
+      ],
+      "Thursday": [],
+      "Friday": []
     },
     "1C": {
       "Saturday": [
@@ -84,7 +88,9 @@
         { "time": "08:30 AM - 09:20 AM", "subject": "GE", "teacher": "RMA", "room": "404" },
         { "time": "09:45 AM - 10:35 AM", "subject": "PF", "teacher": "MHN", "room": "409" },
         { "time": "11:00 AM - 11:50 AM", "subject": "DIC", "teacher": "MathNT", "room": "405" }
-      ]
+      ],
+      "Thursday": [],
+      "Friday": []
     },
     "1D": {
       "Saturday": [
@@ -109,7 +115,9 @@
         { "time": "09:45 AM - 10:35 AM", "subject": "PF", "teacher": "MHN", "room": "409" },
         { "time": "11:00 AM - 11:50 AM", "subject": "IEE", "teacher": "CFK", "room": "405" },
         { "time": "12:15 PM - 01:05 PM", "subject": "DIC", "teacher": "MathNT", "room": "405" }
-      ]
+      ],
+      "Thursday": [],
+      "Friday": []
     },
     "1E": {
       "Saturday": [],
@@ -130,7 +138,9 @@
       "Wednesday": [
         { "time": "08:30 AM - 09:20 AM", "subject": "CFE", "teacher": "AMS", "room": "406" },
         { "time": "09:45 AM - 10:35 AM", "subject": "IEE", "teacher": "MTS", "room": "406" }
-      ]
+      ],
+      "Thursday": [],
+      "Friday": []
     },
     "1F": {
       "Saturday": [
@@ -154,7 +164,9 @@
       "Wednesday": [
         { "time": "08:30 AM - 09:20 AM", "subject": "GE", "teacher": "Ataur", "room": "611" },
         { "time": "09:45 AM - 10:35 AM", "subject": "PF", "teacher": "NBH", "room": "611" }
-      ]
+      ],
+      "Thursday": [],
+      "Friday": []
     }
   },
   "exceptions": {
@@ -173,10 +185,6 @@
     "2026-05-01": {
       "type": "holiday",
       "name": "May Day"
-    },
-      "2026-06-09": {
-      "type": "holiday",
-      "name": "test"
     }
   }
 }
