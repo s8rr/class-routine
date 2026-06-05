@@ -24,7 +24,7 @@
           "room": "909" 
         },
         { 
-          "time": "11:00 AM - 12:40 AM",
+          "time": "11:00 AM - 12:40 PM",
           "subject": "FBL",
           "teacher": "taslima",
           "room": "610"
@@ -32,7 +32,7 @@
       ],
       "Sunday": [
         { "time": "11:00 AM - 12:50 PM", "subject": "PF", "teacher": "AJT", "room": "405" },
-        { "time": "12:50 PM - 01:30 AM", "subject": "CFE", "teacher": "AMS", "room": "405" }
+        { "time": "12:50 PM - 01:30 PM", "subject": "CFE", "teacher": "AMS", "room": "405" }
       ],
       "Monday": [
         { "time": "11:00 AM - 12:15 AM", "subject": "IEE", "teacher": "KMAY", "room": "404" },
@@ -45,8 +45,8 @@
       ],
       "Wednesday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "RMA", "room": "404" },
-        { "time": "09:45 AM - 10:35 AM", "subject": "IEE", "teacher": "KMAY", "room": "405" },
-        { "time": "11:00 AM - 11:50 AM", "subject": "DIC", "teacher": "KLD", "room": "404" }
+        { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "KMAY", "room": "405" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "DIC", "teacher": "KLD", "room": "404" }
       ],
       "Thursday": [],
       "Friday": []
