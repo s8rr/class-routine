@@ -1,0 +1,33 @@
+name: Dual Branch Live Deployment Pipeline
+on:
+  push:
+    branches:
+      - main
+      - next
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Workspace Code
+        uses: actions/checkout@v4
+
+      - name: Calculate Target Environment Destination
+        id: target-env
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "dest=." >> $GITHUB_OUTPUT
+          else
+            echo "dest=next" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy Target to Live gh-pages Hub
+        uses: jamesives/github-pages-deploy-action@v4
+        with:
+          folder: . # Deploy your whole project folder
+          branch: gh-pages # Target destination branch
+          target-folder: ${{ steps.target-env.outputs.dest }} # Determines root or /next subfolder
+          clean: false # CRITICAL: Prevents main from deleting next, and vice-versa
