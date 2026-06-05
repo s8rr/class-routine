@@ -185,6 +185,10 @@
     "2026-05-01": {
       "type": "holiday",
       "name": "May Day"
+    },
+    "2026-06-01": {
+      "type": "holiday",
+      "name": "test"
     }
   }
 }
