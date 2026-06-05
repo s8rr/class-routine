@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Routine Manager | Spring 2026</title>
+    <title>CSE Class Routine | Spring 2026 </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Colors Thursday (5th col) and Friday (6th col) red */
+        #calendar-days-grid > div:nth-child(7n+5),
+        #calendar-days-grid > div:nth-child(7n+6) {
+            color: #ef4444 !important; /* Tailwind's red-500 hex code */
+        }
+    </style>
 </head>
 <body class="text-[#888888] antialiased selection:bg-blue-500/30">
 
@@ -14,7 +22,7 @@
         <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></div>
-                <span class="text-white font-medium tracking-tight text-sm font-mono">routine.io</span>
+                <span class="text-white font-medium tracking-tight text-sm font-mono">CSE Class Routine</span>
             </div>
             <div class="text-xs font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2.5 py-1 rounded">
                 Spring 2026
@@ -24,21 +32,12 @@
 
     <main class="max-w-3xl mx-auto px-6 py-12 space-y-12">
         
-        <header class="space-y-3">
-            <h1 class="text-3xl font-bold text-white tracking-tight">Academic Schedule Core</h1>
-            <p class="text-sm text-neutral-400 leading-relaxed">
-                Select your academic section block and cross-reference dates via the interactive calendar grid engine to monitor real-time class allocations, active holidays, and shifting exam matrices.
-            </p>
-        </header>
-
-        <hr class="border-neutral-900">
-
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+       <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             <div class="bg-[#050505] border border-neutral-900 rounded-xl p-5 flex flex-col justify-between space-y-4">
                 <div>
-                    <h3 class="text-white text-sm font-semibold tracking-tight">Target Cohort</h3>
-                    <p class="text-xs text-neutral-500 mt-1">Isolate weekly templates mapped to specified class batches.</p>
+                    <h3 class="text-white text-sm font-semibold tracking-tight">Select Your Section</h3>
+                    <p class="text-xs text-neutral-500 mt-1">After selecting your section click on a date to check your class routine on that date.</p>
                 </div>
                 <div class="relative w-full">
                     <select id="section-select" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md pl-3 pr-8 py-2 text-sm text-white focus:outline-none focus:border-neutral-700 transition-all appearance-none cursor-pointer font-mono">
@@ -70,8 +69,8 @@
                     <div class="text-neutral-600 font-medium py-1">M</div>
                     <div class="text-neutral-600 font-medium py-1">T</div>
                     <div class="text-neutral-600 font-medium py-1">W</div>
-                    <div class="text-neutral-600 font-medium py-1">T</div>
-                    <div class="text-neutral-600 font-medium py-1">F</div>
+                    <div class="text-red-500 font-medium py-1">T</div>
+                    <div class="text-red-500 font-medium py-1">F</div>
                     <div class="text-neutral-600 font-medium py-1">S</div>
                 </div>
                 <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center text-xs font-mono">
@@ -94,8 +93,8 @@
     <footer class="border-t border-neutral-900 bg-[#000000] mt-24">
         <div class="max-w-3xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
             <div class="space-y-1 text-center sm:text-left">
-                <span class="text-white font-medium font-mono">routine.io Engine</span>
-                <p class="text-[11px] text-neutral-600">Static client-side operational loop parsing JSON data pipelines.</p>
+                <span class="text-white font-medium font-mono">Made by </span> <a href="https://sabbir.cc">sabbir</a>
+               <p class="text-[11px] text-neutral-600">Code <a href="https://github.com/s8rr/class-routine">repository </a></p> 
             </div>
             <div class="text-neutral-500 font-mono">
                 System status: <span class="text-green-500">Synced</span>
