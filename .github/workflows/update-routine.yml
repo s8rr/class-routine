@@ -72,24 +72,23 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Conditionally add the JSON data file
+          # 1. Always add non-data files (e.g., index.html)
+          git add index.html
+          
+          # 2. Only add the JSON file if SKIP_COMMIT is NOT true
           if [ "${{ env.SKIP_COMMIT }}" = "true" ]; then
-            echo "Skipping git add for routine_data.json due to overright flag."
-            # Restore the file to its previous state to keep the working directory clean
-            git restore data/routine_data.json 2>/dev/null || true
+            echo "Overright is false: Skipping stage for data/routine_data.json"
           else
+            echo "Overright is true (or missing): Staging data/routine_data.json"
             git add data/routine_data.json
           fi
           
-          # Always add index.html if it was modified
-          git add index.html
-          
-          # Check if there are any changes staged to commit
+          # 3. Final commit check
           if git diff --staged --quiet; then
-            echo "No changes detected, skipping commit."
+            echo "No changes detected to commit."
           else
             echo "Changes detected, committing and pushing."
-            git commit -m "Auto-update routine and site files [bot]"
+            git commit -m "Auto-update site files [bot]"
             git pull --rebase origin main
             git push
           fi
