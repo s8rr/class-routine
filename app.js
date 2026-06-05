@@ -1,8 +1,8 @@
 // System Application State Architecture Matrix
 let routineData = null;
 let currentSelectedSection = "1D";
-let currentFocusedDate = new Date(); // Tracks Calendar Context Window view states
-let activeSelectedDate = new Date();  // Explicit day target picked by user operation
+let currentFocusedDate = new Date(2026, 5, 1); // Opens to June 2026
+let activeSelectedDate = new Date(2026, 5, 6); // Pre-selects June 6
 
 // Target Document DOM Node Pointers
 const sectionSelect = document.getElementById('section-select');
