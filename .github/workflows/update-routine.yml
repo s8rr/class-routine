@@ -10,6 +10,7 @@ on:
       - 'index.html'           # Triggers if you update your frontend
       - 'app.js'                # OPTIONAL: Add if you have a JS folder
       - 'style.css'               # OPTIONAL: Add if you have a CSS folder
+      - 'data/routine_data.json'
   workflow_dispatch:
 
 permissions:
