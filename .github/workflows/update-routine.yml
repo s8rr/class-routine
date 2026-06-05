@@ -8,8 +8,8 @@ on:
       - 'routine.pdf'
       - 'scripts/extract_routine.py'
       - 'index.html'           # Triggers if you update your frontend
-      - 'js/**'                # OPTIONAL: Add if you have a JS folder
-      - 'css/**'               # OPTIONAL: Add if you have a CSS folder
+      - 'app.js'                # OPTIONAL: Add if you have a JS folder
+      - 'style.css'               # OPTIONAL: Add if you have a CSS folder
   workflow_dispatch:
 
 permissions:
