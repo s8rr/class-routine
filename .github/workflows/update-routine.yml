@@ -1,6 +1,5 @@
-name: Update Routine Data
+name: Update Routine and Deploy to Pages
 
-# 1. THE TRIGGER: When should this run?
 on:
   push:
     branches:
@@ -8,45 +7,60 @@ on:
     paths:
       - 'routine.pdf'                  # Runs when you upload a new PDF
       - 'scripts/extract_routine.py'   # Runs if you update the Python script
-  workflow_dispatch:                   # Adds a button to GitHub so you can run it manually
+  workflow_dispatch:                   # Allows you to trigger it manually via a button
 
-# 2. THE JOB: What should the server do?
+# Give the script permission to commit data AND write updates to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Prevent concurrent deployments from colliding with each other
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  process-pdf:
-    runs-on: ubuntu-latest # Uses a standard Linux server provided by GitHub
-
-    # Give the bot permission to push the new JSON file to your repo
-    permissions:
-      contents: write 
-
+  process-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    
     steps:
-      # Step A: Download your repository files onto the server
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Step B: Install Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      # Step C: Install libraries like pdfplumber
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
 
-      # Step D: Run your Python script
       - name: Extract Data from PDF
         run: |
           python scripts/extract_routine.py
 
-      # Step E: Save the new JSON file and push it back to GitHub
-      - name: Commit and Push Changes
+      - name: Commit and Push Data Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data/routine_data.json
-          
-          # This checks if the JSON actually changed. If yes, it commits and pushes.
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update routine data [bot]" && git push)
+
+      # --- NEW: GITHUB PAGES DEPLOYMENT STEPS ---
+      - name: Setup Pages Configuration
+        uses: actions/configure-pages@v5
+
+      - name: Package Static Site Artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Uploads everything in the root folder (index.html, app.js, data/, etc.)
+
+      - name: Deploy to GitHub Pages Live Live
+        id: deployment
+        uses: actions/deploy-pages@v4
