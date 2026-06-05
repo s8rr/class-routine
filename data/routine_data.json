@@ -1,4 +1,5 @@
 {
+  "overright": false,
   "sections": [
     "1A",
     "1B",
@@ -8,101 +9,48 @@
     "1F"
   ],
   "weekly_routine": {
-    "1D": {
-      "Saturday": [
-        {
-          "time": "08:30 AM - 10:35 AM",
-          "subject": "IEEL",
-          "teacher": "CFK",
-          "room": "506"
-        },
-        {
-          "time": "11:00 AM - 11:50 AM",
-          "subject": "MED",
-          "teacher": "MA",
-          "room": "608"
-        },
-        {
-          "time": "12:15 PM - 01:05 PM",
-          "subject": "GE",
-          "teacher": "Ataur",
-          "room": "611"
-        }
-      ],
-      "Sunday": [
-        {
-          "time": "09:45 AM - 11:00 AM",
-          "subject": "FBL",
-          "teacher": "MAWLA",
-          "room": "610"
-        },
-        {
-          "time": "12:15 PM - 01:05 PM",
-          "subject": "DIC",
-          "teacher": "MathNT",
-          "room": "611"
-        }
-      ],
-      "Monday": [
-        {
-          "time": "08:30 AM - 10:35 AM",
-          "subject": "PFL",
-          "teacher": "MHN",
-          "room": "604"
-        },
-        {
-          "time": "11:00 AM - 01:05 PM",
-          "subject": "CFE",
-          "teacher": "AMS",
-          "room": "406"
-        }
-      ],
-      "Tuesday": [
-        {
-          "time": "08:30 AM - 09:20 AM",
-          "subject": "GE",
-          "teacher": "Ataur",
-          "room": "611"
-        },
-        {
-          "time": "11:00 AM - 11:50 AM",
-          "subject": "PF",
-          "teacher": "MHN",
-          "room": "405"
-        },
-        {
-          "time": "12:15 PM - 01:05 PM",
-          "subject": "IEE",
-          "teacher": "CFK",
-          "room": "405"
-        }
-      ],
-      "Wednesday": [
-        {
-          "time": "09:45 AM - 10:35 AM",
-          "subject": "PF",
-          "teacher": "MHN",
-          "room": "409"
-        },
-        {
-          "time": "11:00 AM - 11:50 AM",
-          "subject": "IEE",
-          "teacher": "CFK",
-          "room": "405"
-        },
-        {
-          "time": "12:15 PM - 01:05 PM",
-          "subject": "DIC",
-          "teacher": "MathNT",
-          "room": "405"
-        }
-      ]
+    "1A": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
     },
-    "1A": {},
-    "1B": {},
-    "1C": {},
-    "1E": {},
-    "1F": {}
+    "1B": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1C": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1D": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1E": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1F": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    }
   },
   "exceptions": {
     "2026-02-21": {
