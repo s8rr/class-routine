@@ -1,8 +1,8 @@
 // System Application State Architecture Matrix
 let routineData = null;
 let currentSelectedSection = "1D";
-let currentFocusedDate = new Date(); // 
-let activeSelectedDate = new Date(); //
+let currentFocusedDate = new Date(); 
+let activeSelectedDate = new Date(); 
 
 // Target Document DOM Node Pointers
 const sectionSelect = document.getElementById('section-select');
@@ -21,7 +21,8 @@ const indexToDayMap = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "
  */
 async function initializeApp() {
     try {
-        const response = await fetch('data/routine_data.json');
+        // FIXED: Added an anti-cache query string parameter to force the browser to read fresh JSON updates immediately
+        const response = await fetch(`data/routine_data.json?v=${new Date().getTime()}`);
         if (!response.ok) throw new Error("Database pipeline network sync exception.");
         routineData = await response.json();
         
