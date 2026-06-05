@@ -50,17 +50,20 @@ jobs:
       - name: Check JSON for overright flag
         id: check_json
         run: |
-          # Read the current JSON file before the Python script potentially overwrites it
           SKIP_COMMIT="false"
-          if [ -f data/routine_data.json ]; then
-            # Extract the 'overright' value using jq. If it doesn't exist, it returns null.
-            OVERRIGHT_VAL=$(jq -r '.overright // empty' data/routine_data.json)
-            if [ "$OVERRIGHT_VAL" = "false" ]; then
+          if [ -f "data/routine_data.json" ]; then
+            # Read the value. 
+            # Note: We use 'jq -r' and check against the string "false"
+            VAL=$(jq -r '.overright' data/routine_data.json)
+            echo "DEBUG: The value of overright in JSON is '$VAL'"
+            
+            if [ "$VAL" = "false" ]; then
               SKIP_COMMIT="true"
-              echo "Found 'overright': false in JSON. The data file will not be committed."
+              echo "Overright is false. Setting SKIP_COMMIT to true."
             fi
+          else
+            echo "File data/routine_data.json not found."
           fi
-          # Save to GitHub Environment variable for the next steps
           echo "SKIP_COMMIT=$SKIP_COMMIT" >> $GITHUB_ENV
 
       - name: Extract Data from PDF
