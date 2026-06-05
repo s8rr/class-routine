@@ -11,9 +11,24 @@
   "weekly_routine": {
     "1A": {
       "Saturday": [
-        { "time": "08:30 AM - 09:20 AM", "subject": "FBL", "teacher": "taslima", "room": "610" },
-        { "time": "09:45 AM - 10:35 AM", "subject": "GE", "teacher": "RMA", "room": "902" },
-        { "time": "11:00 AM - 11:50 AM", "subject": "MED", "teacher": "MR", "room": "909" }
+        { 
+          "time": "08:30 AM - 09:20 AM",
+          "subject": "FBL",
+          "teacher": "taslima",
+          "room": "610"
+        },
+        { 
+          "time": "09:45 AM - 10:35 AM", 
+          "subject": "GE", 
+          "teacher": "RMA", 
+          "room": "902" 
+        },
+        { 
+          "time": "11:00 AM - 11:50 AM",
+          "subject": "MED",
+          "teacher": "MR",
+          "room": "909"
+        }
       ],
       "Sunday": [
         { "time": "08:30 AM - 09:20 AM", "subject": "CFE", "teacher": "AMS", "room": "405" },
