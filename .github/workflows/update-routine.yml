@@ -50,9 +50,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data/routine_data.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update routine data [bot]" && git push)
+          
+          # Checks for changes, commits, pulls remote updates safely, and pushes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update routine data [bot]" && git pull --rebase origin main && git push)
 
-      # --- NEW: GITHUB PAGES DEPLOYMENT STEPS ---
+      # --- GITHUB PAGES DEPLOYMENT STEPS ---
       - name: Setup Pages Configuration
         uses: actions/configure-pages@v5
 
