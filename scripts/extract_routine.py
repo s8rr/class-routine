@@ -15,6 +15,7 @@ def parse_routine_pdf():
     print("Starting PDF data extraction pipeline...")
     
     data_store = {
+        "overright": False,
         "sections": ["1A", "1B", "1C", "1D", "1E", "1F"], 
         "weekly_routine": {}, 
         "exceptions": {}
