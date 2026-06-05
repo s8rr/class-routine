@@ -20,6 +20,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+# Forces GitHub Actions to use Node 24, silencing the deprecation warning
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   process-and-deploy:
     environment:
@@ -30,6 +34,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Downloads full history so 'git pull --rebase' works properly
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -51,7 +57,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data/routine_data.json
           
-          # Checks for changes, commits, pulls remote updates safely, and pushes
+          # Safely pulls remote changes and stacks our new JSON update on top before pushing
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update routine data [bot]" && git pull --rebase origin main && git push)
 
       # --- GITHUB PAGES DEPLOYMENT STEPS ---
@@ -61,8 +67,8 @@ jobs:
       - name: Package Static Site Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Uploads everything in the root folder (index.html, app.js, data/, etc.)
+          path: '.' # Uploads everything in the root folder
 
-      - name: Deploy to GitHub Pages Live Live
+      - name: Deploy to GitHub Pages Live
         id: deployment
         uses: actions/deploy-pages@v4
