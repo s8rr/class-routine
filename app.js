@@ -163,14 +163,8 @@ function renderTimetableStream() {
         return;
     }
     
-    // Check Pipeline Priority 2: Weekend Off-Day Check (Friday fallback standard example context)
+    // Check Pipeline Priority 2: Extract weekly routine template data
     const dayNameStr = indexToDayMap[activeSelectedDate.getDay()];
-    if (dayNameStr === "Friday" || dayNameStr === "Thursday") {
-        renderEmptyStateCard("Standard System Maintenance Weekend Holiday");
-        return;
-    }
-    
-    // Check Pipeline Priority 3: Extract weekly routine template data
     const sectionRoutineContext = routineData?.weekly_routine?.[currentSelectedSection];
     const classesForDayArray = sectionRoutineContext?.[dayNameStr] || [];
     
