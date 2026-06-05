@@ -5,22 +5,22 @@ on:
     branches:
       - main
     paths:
-      - 'routine.pdf'                  # Runs when you upload a new PDF
-      - 'scripts/extract_routine.py'   # Runs if you update the Python script
-  workflow_dispatch:                   # Allows you to trigger it manually via a button
+      - 'routine.pdf'
+      - 'scripts/extract_routine.py'
+      - 'index.html'           # ADDED: Triggers if you update your frontend
+      - 'js/**'                # OPTIONAL: Add if you have a JS folder
+      - 'css/**'               # OPTIONAL: Add if you have a CSS folder
+  workflow_dispatch:
 
-# Give the script permission to commit data AND write updates to GitHub Pages
 permissions:
   contents: write
   pages: write
   id-token: write
 
-# Prevent concurrent deployments from colliding with each other
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# Forces GitHub Actions to use Node 24, silencing the deprecation warning
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -35,7 +35,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Downloads full history so 'git pull --rebase' works properly
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -51,23 +51,31 @@ jobs:
         run: |
           python scripts/extract_routine.py
 
-      - name: Commit and Push Data Changes
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/routine_data.json
           
-          # Safely pulls remote changes and stacks our new JSON update on top before pushing
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update routine data [bot]" && git pull --rebase origin main && git push)
+          # Add all potential changes (JSON, HTML, etc.)
+          git add data/routine_data.json index.html
+          
+          # Check if there are any changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes detected, skipping commit."
+          else
+            echo "Changes detected, committing and pushing."
+            git commit -m "Auto-update routine and site files [bot]"
+            git pull --rebase origin main
+            git push
+          fi
 
-      # --- GITHUB PAGES DEPLOYMENT STEPS ---
       - name: Setup Pages Configuration
         uses: actions/configure-pages@v5
 
       - name: Package Static Site Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' # Uploads everything in the root folder
+          path: '.'
 
       - name: Deploy to GitHub Pages Live
         id: deployment
