@@ -7,7 +7,7 @@ on:
     paths:
       - 'routine.pdf'
       - 'scripts/extract_routine.py'
-      - 'index.html'           # ADDED: Triggers if you update your frontend
+      - 'index.html'           # Triggers if you update your frontend
       - 'js/**'                # OPTIONAL: Add if you have a JS folder
       - 'css/**'               # OPTIONAL: Add if you have a CSS folder
   workflow_dispatch:
@@ -47,6 +47,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r scripts/requirements.txt
 
+      - name: Check JSON for overright flag
+        id: check_json
+        run: |
+          # Read the current JSON file before the Python script potentially overwrites it
+          SKIP_COMMIT="false"
+          if [ -f data/routine_data.json ]; then
+            # Extract the 'overright' value using jq. If it doesn't exist, it returns null.
+            OVERRIGHT_VAL=$(jq -r '.overright // empty' data/routine_data.json)
+            if [ "$OVERRIGHT_VAL" = "false" ]; then
+              SKIP_COMMIT="true"
+              echo "Found 'overright': false in JSON. The data file will not be committed."
+            fi
+          fi
+          # Save to GitHub Environment variable for the next steps
+          echo "SKIP_COMMIT=$SKIP_COMMIT" >> $GITHUB_ENV
+
       - name: Extract Data from PDF
         run: |
           python scripts/extract_routine.py
@@ -56,10 +72,19 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Add all potential changes (JSON, HTML, etc.)
-          git add data/routine_data.json index.html
+          # Conditionally add the JSON data file
+          if [ "${{ env.SKIP_COMMIT }}" = "true" ]; then
+            echo "Skipping git add for routine_data.json due to overright flag."
+            # Restore the file to its previous state to keep the working directory clean
+            git restore data/routine_data.json 2>/dev/null || true
+          else
+            git add data/routine_data.json
+          fi
           
-          # Check if there are any changes to commit
+          # Always add index.html if it was modified
+          git add index.html
+          
+          # Check if there are any changes staged to commit
           if git diff --staged --quiet; then
             echo "No changes detected, skipping commit."
           else
