@@ -14,68 +14,57 @@ def clean_text(text):
 def parse_routine_pdf():
     print("Starting PDF data extraction pipeline...")
     
-    # 1. Load existing JSON data if available to preserve 'exceptions' and sections
-    if os.path.exists(JSON_PATH):
-        with open(JSON_PATH, 'r') as f:
-            try:
-                data_store = json.load(f)
-            except json.JSONDecodeError:
-                data_store = {"sections": [], "weekly_routine": {}, "exceptions": {}}
-    else:
-        data_store = {"sections": [], "weekly_routine": {}, "exceptions": {}}
-
-    # Initialize structure if empty
-    if "weekly_routine" not in data_store or not data_store["weekly_routine"]:
-        data_store["weekly_routine"] = {}
-    if "sections" not in data_store or not data_store["sections"]:
-        data_store["sections"] = ["1A", "1B", "1C", "1D", "1E", "1F"]
-
+    # 1. Load or Initialize Data Store
+    data_store = {"sections": ["1A", "1B", "1C", "1D", "1E", "1F"], "weekly_routine": {}, "exceptions": {}}
     for sec in data_store["sections"]:
-        if sec not in data_store["weekly_routine"]:
-            data_store["weekly_routine"][sec] = {
-                "Saturday": [], "Sunday": [], "Monday": [], "Tuesday": [], "Wednesday": []
-            }
+        data_store["weekly_routine"][sec] = {
+            "Saturday": [], "Sunday": [], "Monday": [], "Tuesday": [], "Wednesday": []
+        }
 
-    # 2. Extract and Parse Content from PDF
     if not os.path.exists(PDF_PATH):
-        print(f"Error: {PDF_PATH} not found. Using fallback template configuration.")
+        print(f"Error: {PDF_PATH} not found.")
         return
 
     with pdfplumber.open(PDF_PATH) as pdf:
-        for page_num, page in enumerate(pdf.pages):
+        for page in pdf.pages:
             text = page.extract_text()
-            if not text:
-                continue
-                
-            # Splitting text lines to hunt out structural patterns like Subject/Teacher/Room
+            if not text: continue
+            
             lines = text.split('\n')
             current_day = None
+            current_section = None
             
-            # Helper regex pattern to detect standard class routine formats e.g., IEEL/CFK/506
-            class_pattern = re.compile(r'([A-Z]{2,6})\s*/\s*([A-Za-z0-9\s.-]+)\s*/\s*([0-9]{3,4})')
+            # Updated Regex to be more robust
+            class_pattern = re.compile(r'([A-Z]{2,6})\s*/\s*([A-Za-z0-9.-]+)\s*/\s*([0-9]{3,4})')
             
             for line in lines:
                 cleaned = clean_text(line)
                 
-                # Identify the day block context within the PDF text flow
+                # Check for Day
                 for day in ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"]:
                     if day.lower() in cleaned.lower():
                         current_day = day
                 
-                # Check for regular expression class matches inside the string lines
+                # Check for Section (e.g., 1A, 1B)
+                for sec in data_store["sections"]:
+                    if sec == cleaned or (sec in cleaned and len(cleaned) < 5):
+                        current_section = sec
+                
+                # Process matches
                 matches = class_pattern.findall(cleaned)
-                if matches and current_day:
-                    # In a fully productionized setup, we parse the surrounding structural bounding box 
-                    # matrix coordinates to cross-reference with time arrays. 
-                    # For stability, we append cleanly parsed objects.
-                    pass
+                if matches and current_day and current_section:
+                    for sub, teacher, room in matches:
+                        entry = {"subject": sub, "teacher": teacher, "room": room}
+                        # Avoid duplicate entries if the PDF has repeating headers
+                        if entry not in data_store["weekly_routine"][current_section][current_day]:
+                            data_store["weekly_routine"][current_section][current_day].append(entry)
 
-    # 3. Save the formatted changes back to our static JSON database
+    # 3. Save
     os.makedirs(os.path.dirname(JSON_PATH), exist_ok=True)
     with open(JSON_PATH, 'w') as f:
         json.dump(data_store, f, indent=2)
     
-    print("Routine extraction pipeline completed successfully. Data synchronized.")
+    print("Routine extraction pipeline completed successfully.")
 
 if __name__ == "__main__":
     parse_routine_pdf()
