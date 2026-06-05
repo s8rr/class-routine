@@ -12,42 +12,41 @@
     "1A": {
       "Saturday": [
         { 
-          "time": "08:30 AM - 09:20 AM",
+          "time": "08:30 AM - 09:45 AM",
+          "subject": "GE",
+          "teacher": "RMA",
+          "room": "902"
+        },
+        { 
+          "time": "09:45 AM - 11:00 AM", 
+          "subject": " MED", 
+          "teacher": "MR", 
+          "room": "909" 
+        },
+        { 
+          "time": "11:00 AM - 12:40 AM",
           "subject": "FBL",
           "teacher": "taslima",
           "room": "610"
-        },
-        { 
-          "time": "09:45 AM - 10:35 AM", 
-          "subject": "GE", 
-          "teacher": "RMA", 
-          "room": "902" 
-        },
-        { 
-          "time": "11:00 AM - 11:50 AM",
-          "subject": "MED",
-          "teacher": "MR",
-          "room": "909"
         }
       ],
       "Sunday": [
-        { "time": "08:30 AM - 09:20 AM", "subject": "CFE", "teacher": "AMS", "room": "405" },
-        { "time": "09:45 AM - 10:35 AM", "subject": "PF", "teacher": "AJT", "room": "405" }
+        { "time": "11:00 AM - 12:50 PM", "subject": "PF", "teacher": "AJT", "room": "405" },
+        { "time": "12:50 PM - 01:30 AM", "subject": "CFE", "teacher": "AMS", "room": "405" }
       ],
       "Monday": [
-        { "time": "08:30 AM - 09:20 AM", "subject": "IEE", "teacher": "KMAY", "room": "404" },
-        { "time": "09:45 AM - 10:35 AM", "subject": "PF", "teacher": "AJT", "room": "404" },
-        { "time": "11:00 AM - 11:50 AM", "subject": "IEEL", "teacher": "KMAY", "room": "506" }
+        { "time": "11:00 AM - 12:15 AM", "subject": "IEE", "teacher": "KMAY", "room": "404" },
+        { "time": "12:15 PM - 01:30 PM", "subject": "PF", "teacher": "AJT", "room": "404" },
+        { "time": "01:30 PM - 04:00 PM", "subject": "IEEL", "teacher": "KMAY", "room": "506" }
       ],
       "Tuesday": [
-        { "time": "08:30 AM - 09:20 AM", "subject": "PFL", "teacher": "AJT", "room": "606" },
-        { "time": "09:45 AM - 10:35 AM", "subject": "DIC", "teacher": "KLD", "room": "404" },
-        { "time": "11:00 AM - 11:50 AM", "subject": "IEE", "teacher": "MRRC", "room": "510" }
+        { "time": "9:45 AM - 11:00 AM", "subject": "DIC", "teacher": "KLD", "room": "404" },
+        { "time": "11:00 AM - 01:30 AM", "subject": "PFL", "teacher": "AJT", "room": "606" }
       ],
       "Wednesday": [
-        { "time": "08:30 AM - 09:20 AM", "subject": "IEE", "teacher": "KMAY", "room": "405" },
-        { "time": "09:45 AM - 10:35 AM", "subject": "DIC", "teacher": "KLD", "room": "404" },
-        { "time": "11:00 AM - 11:50 AM", "subject": "GE", "teacher": "RMA", "room": "404" }
+        { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "RMA", "room": "404" },
+        { "time": "09:45 AM - 10:35 AM", "subject": "IEE", "teacher": "KMAY", "room": "405" },
+        { "time": "11:00 AM - 11:50 AM", "subject": "DIC", "teacher": "KLD", "room": "404" }
       ],
       "Thursday": [],
       "Friday": []
