@@ -20,9 +20,9 @@
         { "time": "11:00 PM - 01:30 PM", "subject": "Computer Fundamentals and Ethics", "teacher": "AMS", "room": "405" }
       ],
       "Monday": [
-        { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "KMAY", "room": "404" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "KMAY", "room": "404" },
         { "time": "12:15 PM - 01:30 PM", "subject": "PF (Programming Fundamentals)", "teacher": "AJT", "room": "404" },
-        { "time": "01:30 PM - 04:00 PM", "subject": "IEEL", "teacher": "KMAY", "room": "506" }
+        { "time": "01:30 PM - 04:00 PM", "subject": "IEE (Introduction to Electrical Engineering)L", "teacher": "KMAY", "room": "506" }
       ],
       "Tuesday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "DIC", "teacher": "KLD", "room": "404" },
@@ -30,7 +30,7 @@
       ],
       "Wednesday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "404" },
-        { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "KMAY", "room": "405" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "KMAY", "room": "405" },
         { "time": "12:15 PM - 01:30 PM", "subject": "DIC", "teacher": "KLD", "room": "404" }
       ],
       "Thursday": [],
@@ -48,13 +48,13 @@
         { "time": "12:15 PM - 01:30 PM", "subject": "PF (Programming Fundamentals)", "teacher": "MH", "room": "404" }
       ],
       "Monday": [
-        { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "MRRC", "room": "405" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MRRC", "room": "405" },
         { "time": "11:00 AM - 12:15 PM", "subject": "PF (Programming Fundamentals)", "teacher": "MH", "room": "405" },
         { "time": "12:15 PM - 01:30 PM", "subject": "DIC", "teacher": "KLD", "room": "405" }
       ],
       "Tuesday": [
-        { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "MRRC", "room": "510" },
-        { "time": "01:30 PM - 04:00 PM", "subject": "IEEL", "teacher": "MRRC", "room": "506" }
+        { "time": "11:00 AM - 12:15 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MRRC", "room": "510" },
+        { "time": "01:30 PM - 04:00 PM", "subject": "IEE (Introduction to Electrical Engineering)L", "teacher": "MRRC", "room": "506" }
       ],
       "Wednesday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "404" },
@@ -70,7 +70,7 @@
         { "time": "11:25 AM - 12:40 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MR", "room": "909" }
       ],
       "Sunday": [
-        { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "CFK", "room": "406" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "CFK", "room": "406" },
         { "time": "11:00 AM - 01:30 PM", "subject": "PF (Programming Fundamentals)L", "teacher": "MHN", "room": "606" }
       ],
       "Monday": [
@@ -80,11 +80,11 @@
       ],
       "Tuesday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "PF (Programming Fundamentals)", "teacher": "MHN", "room": "410" },
-        { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "CFK", "room": "410" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "CFK", "room": "410" },
         { "time": "12:15 PM - 01:30 PM", "subject": "DIC", "teacher": "KLD", "room": "410" }
       ],
       "Wednesday": [
-        { "time": "08:30 AM - 11:00 AM", "subject": "IEEL", "teacher": "CFK", "room": "506" },
+        { "time": "08:30 AM - 11:00 AM", "subject": "IEE (Introduction to Electrical Engineering)L", "teacher": "CFK", "room": "506" },
         { "time": "11:00 AM - 12:25 PM", "subject": "GE (General English)", "teacher": "RMA", "room": "404" }
       ],
       "Thursday": [],
@@ -92,7 +92,7 @@
     },
     "1D": {
       "Saturday": [
-        { "time": "08:30 AM - 11:00 AM", "subject": "IEEL", "teacher": "CFK", "room": "506" },
+        { "time": "08:30 AM - 11:00 AM", "subject": "IEE (Introduction to Electrical Engineering)L", "teacher": "CFK", "room": "506" },
         { "time": "11:00 AM - 12:15 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MA", "room": "608" },
         { "time": "12:15 AM - 01:30 PM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" }
       ],
@@ -107,11 +107,11 @@
       "Tuesday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "11:00 AM - 12:15 PM", "subject": "PF (Programming Fundamentals)", "teacher": "MHN", "room": "405" },
-        { "time": "12:15 PM - 01:30 PM", "subject": "IEE", "teacher": "CFK", "room": "405" }
+        { "time": "12:15 PM - 01:30 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "CFK", "room": "405" }
       ],
       "Wednesday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "PF (Programming Fundamentals)", "teacher": "MHN", "room": "409" },
-        { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "CFK", "room": "405" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "CFK", "room": "405" },
         { "time": "12:15 PM - 01:30 PM", "subject": "DIC", "teacher": "MathNT", "room": "405" }
       ],
       "Thursday": [],
@@ -120,7 +120,7 @@
     "1E": {
       "Saturday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
-        { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "MTS", "room": "610" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MTS", "room": "610" },
         { "time": "12:15 PM - 01:30 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MA", "room": "608" }
       ],
       "Sunday": [
@@ -130,7 +130,7 @@
       "Monday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "09:45 AM - 11:00 AM", "subject": "PF (Programming Fundamentals)", "teacher": "AJT", "room": "409" },
-        { "time": "11:00 AM - 01:30 PM", "subject": "IEEL", "teacher": "MTS", "room": "506" }
+        { "time": "11:00 AM - 01:30 PM", "subject": "IEE (Introduction to Electrical Engineering)L", "teacher": "MTS", "room": "506" }
       ],
       "Tuesday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "PF (Programming Fundamentals)", "teacher": "AJT", "room": "409" },
@@ -138,7 +138,7 @@
       ],
       "Wednesday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "DIC", "teacher": "MathNT", "room": "901" },
-        { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "MTS", "room": "406" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MTS", "room": "406" },
         { "time": "11:00 AM - 01:30 PM", "subject": "Computer Fundamentals and Ethics", "teacher": "AMS", "room": "406" }
       ],
       "Thursday": [],
@@ -159,15 +159,15 @@
         { "time": "11:00 AM - 01:30 PM", "subject": "PF (Programming Fundamentals)L", "teacher": "NBH", "room": "606" }
       ],
       "Tuesday": [
-        { "time": "08:30 AM - 09:45 AM", "subject": "IEEL", "teacher": "MTS", "room": "506" },
-        { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "MTS", "room": "506" },
-        { "time": "11:00 AM - 11:00 PM", "subject": "IEE", "teacher": "MTS", "room": "406" },
+        { "time": "08:30 AM - 09:45 AM", "subject": "IEE (Introduction to Electrical Engineering)L", "teacher": "MTS", "room": "506" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MTS", "room": "506" },
+        { "time": "11:00 AM - 11:00 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MTS", "room": "406" },
         { "time": "12:15 PM - 01:30 PM", "subject": "DIC", "teacher": "MathNT", "room": "406" }
       ],
       "Wednesday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "09:45 AM - 11:00 AM", "subject": "PF (Programming Fundamentals)", "teacher": "NBH", "room": "611" },
-        { "time": "12:15 PM - 01:30 PM", "subject": "IEE", "teacher": "MTS", "room": "406" }
+        { "time": "12:15 PM - 01:30 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MTS", "room": "406" }
       ],
       "Thursday": [],
       "Friday": []
