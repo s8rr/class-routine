@@ -5,7 +5,7 @@ import matplotlib.patches as patches
 from datetime import datetime
 
 # File paths - MATCHED TO YOUR PATH
-JSON_PATH = 'data/gen.json'
+JSON_PATH = 'data/img_data.json'
 OUTPUT_DIR = 'routine_images'
 
 # The days ordered exactly from bottom to top (Index 0 to 4) matching your list
