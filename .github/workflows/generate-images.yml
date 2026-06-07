@@ -1,20 +1,16 @@
 name: Generate Routine Images
 
 on:
-  # 1. Automatically run this AFTER your main data extraction finishes
-  workflow_run:
-    workflows: ["Update Routine and Deploy to Pages"]
-    types:
-      - completed
-  
-  # 2. Run if you manually edit the image generation script
+  # 1. Run if you manually edit the python script OR the gen.json file
   push:
     branches:
       - main
     paths:
       - 'generate_images.py'
+      - 'gen.json'          # <--- Triggers when gen.json in the root folder is updated
+      - 'data/gen.json'     # <--- Triggers if gen.json is inside a data folder
       
-  # 3. Allow manual triggering via a button on GitHub
+  # 2. Allow manual triggering via a button on GitHub
   workflow_dispatch:
 
 permissions:
@@ -23,9 +19,6 @@ permissions:
 jobs:
   generate-and-push-images:
     runs-on: ubuntu-latest
-    
-    # Only run this if the previous workflow was actually successful
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
     
     steps:
       - name: Checkout Repository
