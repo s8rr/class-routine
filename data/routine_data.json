@@ -17,7 +17,7 @@
       ],
       "Sunday": [
         { "time": "09:45 AM - 11:00 PM", "subject": "PF (Programming Fundamentals)", "teacher": "AJT", "room": "405" },
-        { "time": "11:00 PM - 01:30 PM", "subject": "CFE", "teacher": "AMS", "room": "405" }
+        { "time": "11:00 PM - 01:30 PM", "subject": "Computer Fundamentals and Ethics", "teacher": "AMS", "room": "405" }
       ],
       "Monday": [
         { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "KMAY", "room": "404" },
@@ -43,7 +43,7 @@
         { "time": "01:30 PM - 03:10 PM", "subject": "FBL (Functional Bengali Language)", "teacher": "taslima", "room": "610" }
       ],
       "Sunday": [
-        { "time": "08:30 AM - 11:00 AM", "subject": "CFE", "teacher": "AMS", "room": "404" },
+        { "time": "08:30 AM - 11:00 AM", "subject": "Computer Fundamentals and Ethics", "teacher": "AMS", "room": "404" },
         { "time": "11:00 AM - 12:15 PM", "subject": "DIC", "teacher": "KLD", "room": "404" },
         { "time": "12:15 PM - 01:30 PM", "subject": "PF (Programming Fundamentals)", "teacher": "MH", "room": "404" }
       ],
@@ -74,7 +74,7 @@
         { "time": "11:00 AM - 01:30 PM", "subject": "PF (Programming Fundamentals)L", "teacher": "MHN", "room": "606" }
       ],
       "Monday": [
-        { "time": "08:30 AM - 11:00 AM", "subject": "CFE", "teacher": "AMS", "room": "610" },
+        { "time": "08:30 AM - 11:00 AM", "subject": "Computer Fundamentals and Ethics", "teacher": "AMS", "room": "610" },
         { "time": "11:00 AM - 12:15 PM", "subject": "DIC", "teacher": "KLD", "room": "410" },
         { "time": "12:15 PM - 01:30 PM", "subject": "PF (Programming Fundamentals)", "teacher": "MHN", "room": "410" }
       ],
@@ -102,7 +102,7 @@
       ],
       "Monday": [
         { "time": "08:30 AM - 11:00 AM", "subject": "PF (Programming Fundamentals)L", "teacher": "MHN", "room": "604" },
-        { "time": "11:00 AM - 01:30 PM", "subject": "CFE", "teacher": "AMS", "room": "406" }
+        { "time": "11:00 AM - 01:30 PM", "subject": "Computer Fundamentals and Ethics", "teacher": "AMS", "room": "406" }
       ],
       "Tuesday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
@@ -139,7 +139,7 @@
       "Wednesday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "DIC", "teacher": "MathNT", "room": "901" },
         { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "MTS", "room": "406" },
-        { "time": "11:00 AM - 01:30 PM", "subject": "CFE", "teacher": "AMS", "room": "406" }
+        { "time": "11:00 AM - 01:30 PM", "subject": "Computer Fundamentals and Ethics", "teacher": "AMS", "room": "406" }
       ],
       "Thursday": [],
       "Friday": []
@@ -151,7 +151,7 @@
         { "time": "01:30 PM - 02:45 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MA", "room": "608" }
       ],
       "Sunday": [
-        { "time": "08:30 AM - 11:00 AM", "subject": "CFE", "teacher": "MFF", "room": "510" },
+        { "time": "08:30 AM - 11:00 AM", "subject": "Computer Fundamentals and Ethics", "teacher": "MFF", "room": "510" },
         { "time": "11:00 AM - 12:15 PM", "subject": "PF (Programming Fundamentals)", "teacher": "NBH", "room": "510" }
       ],
       "Monday": [
