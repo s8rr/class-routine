@@ -11,7 +11,7 @@
   "weekly_routine": {
     "1A": {
       "Saturday": [
-        { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "RMA", "room": "902" },
+        { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "902" },
         { "time": "09:45 AM - 11:00 AM", "subject": "MED", "teacher": "MR", "room": "909" },
         { "time": "11:00 AM - 12:40 PM", "subject": "FBL", "teacher": "taslima", "room": "610" }
       ],
