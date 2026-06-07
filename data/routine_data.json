@@ -29,7 +29,7 @@
         { "time": "11:00 AM - 01:30 PM", "subject": "PFL", "teacher": "AJT", "room": "606" }
       ],
       "Wednesday": [
-        { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "RMA", "room": "404" },
+        { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "404" },
         { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "KMAY", "room": "405" },
         { "time": "12:15 PM - 01:30 PM", "subject": "DIC", "teacher": "KLD", "room": "404" }
       ],
@@ -38,7 +38,7 @@
     },
     "1B": {
       "Saturday": [
-        { "time": "09:45 AM - 11:00 AM", "subject": "GE", "teacher": "RMA", "room": "902" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "902" },
         { "time": "11:00 AM - 12:15 PM", "subject": "MED", "teacher": "MR", "room": "909" },
         { "time": "01:30 PM - 03:10 PM", "subject": "FBL", "teacher": "taslima", "room": "610" }
       ],
@@ -57,7 +57,7 @@
         { "time": "01:30 PM - 04:00 PM", "subject": "IEEL", "teacher": "MRRC", "room": "506" }
       ],
       "Wednesday": [
-        { "time": "09:45 AM - 11:00 AM", "subject": "GE", "teacher": "RMA", "room": "404" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "404" },
         { "time": "11:00 AM - 01:30 PM", "subject": "PFL", "teacher": "MH", "room": "606" }
       ],
       "Thursday": [],
@@ -66,7 +66,7 @@
     "1C": {
       "Saturday": [
         { "time": "08:55 AM - 10:35 AM", "subject": "FBL", "teacher": "taslima", "room": "610" },
-        { "time": "10:10 AM - 11:25 AM", "subject": "GE", "teacher": "RMA", "room": "902" },
+        { "time": "10:10 AM - 11:25 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "902" },
         { "time": "11:25 AM - 12:40 PM", "subject": "MED", "teacher": "MR", "room": "909" }
       ],
       "Sunday": [
@@ -85,7 +85,7 @@
       ],
       "Wednesday": [
         { "time": "08:30 AM - 11:00 AM", "subject": "IEEL", "teacher": "CFK", "room": "506" },
-        { "time": "11:00 AM - 12:25 PM", "subject": "GE", "teacher": "RMA", "room": "404" }
+        { "time": "11:00 AM - 12:25 PM", "subject": "GE (General English)", "teacher": "RMA", "room": "404" }
       ],
       "Thursday": [],
       "Friday": []
@@ -94,7 +94,7 @@
       "Saturday": [
         { "time": "08:30 AM - 11:00 AM", "subject": "IEEL", "teacher": "CFK", "room": "506" },
         { "time": "11:00 AM - 12:15 PM", "subject": "MED", "teacher": "MA", "room": "608" },
-        { "time": "12:15 AM - 01:30 PM", "subject": "GE", "teacher": "Ataur", "room": "611" }
+        { "time": "12:15 AM - 01:30 PM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" }
       ],
       "Sunday": [
         { "time": "09:45 AM - 11:25 AM", "subject": "FBL", "teacher": "MAWLA", "room": "610" },
@@ -105,7 +105,7 @@
         { "time": "11:00 AM - 01:30 PM", "subject": "CFE", "teacher": "AMS", "room": "406" }
       ],
       "Tuesday": [
-        { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "Ataur", "room": "611" },
+        { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "11:00 AM - 12:15 PM", "subject": "PF", "teacher": "MHN", "room": "405" },
         { "time": "12:15 PM - 01:30 PM", "subject": "IEE", "teacher": "CFK", "room": "405" }
       ],
@@ -119,7 +119,7 @@
     },
     "1E": {
       "Saturday": [
-        { "time": "09:45 AM - 11:00 AM", "subject": "GE", "teacher": "Ataur", "room": "611" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "MTS", "room": "610" },
         { "time": "12:15 PM - 01:30 PM", "subject": "MED", "teacher": "MA", "room": "608" }
       ],
@@ -128,7 +128,7 @@
         { "time": "11:25 AM - 12:40 PM", "subject": "FBL", "teacher": "mawla", "room": "610" }
       ],
       "Monday": [
-        { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "Ataur", "room": "611" },
+        { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "09:45 AM - 11:00 AM", "subject": "PF", "teacher": "AJT", "room": "409" },
         { "time": "11:00 AM - 01:30 PM", "subject": "IEEL", "teacher": "MTS", "room": "506" }
       ],
@@ -147,7 +147,7 @@
     "1F": {
       "Saturday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "DIC", "teacher": "MathNT", "room": "510" },
-        { "time": "11:00 AM - 12:15 PM", "subject": "GE", "teacher": "Ataur", "room": "611" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "01:30 PM - 02:45 PM", "subject": "MED", "teacher": "MA", "room": "608" }
       ],
       "Sunday": [
@@ -165,7 +165,7 @@
         { "time": "12:15 PM - 01:30 PM", "subject": "DIC", "teacher": "MathNT", "room": "406" }
       ],
       "Wednesday": [
-        { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "Ataur", "room": "611" },
+        { "time": "08:30 AM - 09:45 AM", "subject": "GE (General English)", "teacher": "Ataur", "room": "611" },
         { "time": "09:45 AM - 11:00 AM", "subject": "PF", "teacher": "NBH", "room": "611" },
         { "time": "12:15 PM - 01:30 PM", "subject": "IEE", "teacher": "MTS", "room": "406" }
       ],
