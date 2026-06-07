@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from datetime import datetime
 
-# File paths
-JSON_PATH = 'data/img_data.json'
+# File paths - MATCHED TO YOUR PATH
+JSON_PATH = 'data/gen.json'
 OUTPUT_DIR = 'routine_images'
 
 # The days ordered exactly from bottom to top (Index 0 to 4) matching your list
@@ -37,7 +37,6 @@ def parse_time_to_minutes(time_str):
             return 0
     
     ref = datetime.strptime('08:00', '%H:%M')
-    # Use normal mathematical operators to calculate modulo minutes
     return int((t.hour * 60 + t.minute) - (ref.hour * 60 + ref.minute))
 
 def generate_routine_images():
@@ -71,7 +70,6 @@ def generate_routine_images():
         for mins in range(start_min, end_min + 1, 30):
             ax.axvline(mins, color='#E5E5E5', linestyle='--', linewidth=0.8, zorder=0)
 
-        # Track if section has any classes at all
         has_classes = False
 
         # 4. Process day layouts
@@ -119,7 +117,6 @@ def generate_routine_images():
                     ha='center', va='center', color='#1A1A1A', fontsize=9.5, fontweight='bold', zorder=4
                 )
 
-        # If a section does not have data configured yet, pass to save clean blank state template or log it
         if not has_classes:
             print(f"⚠️ Warning: Section {section} does not have any routine classes configured.")
 
@@ -146,13 +143,13 @@ def generate_routine_images():
 
         plt.tight_layout()
         
-        # 6. Export high definition asset directly into workflow directory
+        # 6. Export high-definition asset
         save_path = os.path.join(OUTPUT_DIR, f"Section_{section}_Routine.png")
         plt.savefig(save_path, dpi=300, facecolor=fig.get_facecolor(), edgecolor='none')
         plt.close(fig)
         print(f"✅ Generated crisp timeline for: {save_path}")
 
-    print("🎉 Done! All images rendered perfectly via GitHub Actions pipeline.")
+    print("🎉 Done! All images rendered perfectly.")
 
 if __name__ == "__main__":
     generate_routine_images()
