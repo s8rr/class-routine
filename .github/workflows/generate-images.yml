@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'generate_images.py'
-      - 'data/gen.json'     # <--- TRIGGERS SCRIPT WHEN DATA/GEN.JSON CHANGES
+      - 'data/img_data.json'     # <--- TRIGGERS WHEN IMG_DATA.JSON CHANGES
       
   workflow_dispatch:
 
