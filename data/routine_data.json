@@ -54,7 +54,7 @@
       ],
       "Tuesday": [
         { "time": "11:00 AM - 12:15 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MRRC", "room": "510" },
-        { "time": "01:30 PM - 04:00 PM", "subject": "IEE (Introduction to Electrical Engineering)", "teacher": "MRRC", "room": "506" }
+        { "time": "01:30 PM - 04:00 PM", "subject": "IEEL (Introduction to Electrical Engineering Laboratory)", "teacher": "MRRC", "room": "506" }
       ],
       "Wednesday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "GE (General English)", "teacher": "RMA", "room": "404" },
