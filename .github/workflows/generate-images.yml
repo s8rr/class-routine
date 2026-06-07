@@ -1,15 +1,13 @@
 name: Generate Routine Images
 
 on:
-  # 1. Run if you manually edit the python script OR the img_data.json file
   push:
     branches:
       - main
     paths:
       - 'generate_images.py'
-      - 'data/img_data.json'     # <--- Now it triggers when this specific file is updated
+      - 'data/gen.json'     # <--- TRIGGERS SCRIPT WHEN DATA/GEN.JSON CHANGES
       
-  # 2. Allow manual triggering via a button on GitHub
   workflow_dispatch:
 
 permissions:
@@ -44,10 +42,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Add ONLY the images folder to this commit
           git add routine_images/
           
-          # Check if any images were actually created or updated
           if git diff --staged --quiet; then
             echo "✅ No new or updated images to push."
           else
