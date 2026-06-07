@@ -6,7 +6,7 @@ from datetime import datetime
 import re
 
 # File paths
-JSON_PATH = 'data/routine_data.json'
+JSON_PATH = 'data/img_data.json'
 OUTPUT_DIR = 'routine_images'
 
 # The days we want to plot (ordered from top to bottom)
