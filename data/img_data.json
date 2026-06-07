@@ -12,7 +12,7 @@
     "1A": {
       "Saturday": [
         { "time": "08:30 AM - 09:45 AM", "subject": "GE", "teacher": "RMA", "room": "902" },
-        { "time": "09:45 AM - 11:00 AM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MR", "room": "909" },
+        { "time": "09:45 AM - 11:00 AM", "subject": "MED", "teacher": "MR", "room": "909" },
         { "time": "11:00 AM - 12:40 PM", "subject": "FBL", "teacher": "taslima", "room": "610" }
       ],
       "Sunday": [
@@ -39,7 +39,7 @@
     "1B": {
       "Saturday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "GE", "teacher": "RMA", "room": "902" },
-        { "time": "11:00 AM - 12:15 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MR", "room": "909" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "MED", "teacher": "MR", "room": "909" },
         { "time": "01:30 PM - 03:10 PM", "subject": "FBL", "teacher": "taslima", "room": "610" }
       ],
       "Sunday": [
@@ -67,7 +67,7 @@
       "Saturday": [
         { "time": "08:55 AM - 10:35 AM", "subject": "FBL", "teacher": "taslima", "room": "610" },
         { "time": "10:10 AM - 11:25 AM", "subject": "GE", "teacher": "RMA", "room": "902" },
-        { "time": "11:25 AM - 12:40 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MR", "room": "909" }
+        { "time": "11:25 AM - 12:40 PM", "subject": "MED", "teacher": "MR", "room": "909" }
       ],
       "Sunday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "IEE", "teacher": "CFK", "room": "406" },
@@ -93,7 +93,7 @@
     "1D": {
       "Saturday": [
         { "time": "08:30 AM - 11:00 AM", "subject": "IEEL", "teacher": "CFK", "room": "506" },
-        { "time": "11:00 AM - 12:15 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MA", "room": "608" },
+        { "time": "11:00 AM - 12:15 PM", "subject": "MED", "teacher": "MA", "room": "608" },
         { "time": "12:15 AM - 01:30 PM", "subject": "GE", "teacher": "Ataur", "room": "611" }
       ],
       "Sunday": [
@@ -121,7 +121,7 @@
       "Saturday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "GE", "teacher": "Ataur", "room": "611" },
         { "time": "11:00 AM - 12:15 PM", "subject": "IEE", "teacher": "MTS", "room": "610" },
-        { "time": "12:15 PM - 01:30 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MA", "room": "608" }
+        { "time": "12:15 PM - 01:30 PM", "subject": "MED", "teacher": "MA", "room": "608" }
       ],
       "Sunday": [
         { "time": "08:30 AM - 11:00 AM", "subject": "PF", "teacher": "NBH", "room": "606" },
@@ -148,7 +148,7 @@
       "Saturday": [
         { "time": "09:45 AM - 11:00 AM", "subject": "DIC", "teacher": "MathNT", "room": "510" },
         { "time": "11:00 AM - 12:15 PM", "subject": "GE", "teacher": "Ataur", "room": "611" },
-        { "time": "01:30 PM - 02:45 PM", "subject": "MED (Mechanical Engineering Drawing)", "teacher": "MA", "room": "608" }
+        { "time": "01:30 PM - 02:45 PM", "subject": "MED", "teacher": "MA", "room": "608" }
       ],
       "Sunday": [
         { "time": "08:30 AM - 11:00 AM", "subject": "CFE", "teacher": "MFF", "room": "510" },
