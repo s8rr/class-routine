@@ -1,8 +1,8 @@
 // System Application State Architecture Matrix
 let routineData = null;
-let currentSelectedSection = "1D";
-let currentFocusedDate = new Date(); // 
-let activeSelectedDate = new Date(); //
+let currentSelectedSection = "1A";
+let currentFocusedDate = new Date(); // Tracks Calendar Context Window view states
+let activeSelectedDate = new Date();  // Explicit day target picked by user operation
 
 // Target Document DOM Node Pointers
 const sectionSelect = document.getElementById('section-select');
@@ -163,8 +163,14 @@ function renderTimetableStream() {
         return;
     }
     
-    // Check Pipeline Priority 2: Extract weekly routine template data
+    // Check Pipeline Priority 2: Weekend Off-Day Check (Friday fallback standard example context)
     const dayNameStr = indexToDayMap[activeSelectedDate.getDay()];
+    if (dayNameStr === "Friday" || dayNameStr === "Thursday") {
+        renderEmptyStateCard("Standard System Maintenance Weekend Holiday");
+        return;
+    }
+    
+    // Check Pipeline Priority 3: Extract weekly routine template data
     const sectionRoutineContext = routineData?.weekly_routine?.[currentSelectedSection];
     const classesForDayArray = sectionRoutineContext?.[dayNameStr] || [];
     
