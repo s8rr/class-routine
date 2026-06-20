@@ -81,41 +81,15 @@ function handleSemesterSelect(sem) {
     renderSystemState();
 }
 
+/**
+ * Populate the section dropdown using ONLY the sections that belong to
+ * the currently selected semester (fixes "dropdown shows all sections" bug).
+ */
 function populateSectionDropdown() {
     sectionSelect.innerHTML = "";
-    if (!routineData || !routineData.sections) return;
-    
-    routineData.sections.forEach(sec => {
-        const opt = document.createElement('option');
-        opt.value = sec;
-        opt.textContent = `Section ${sec}`;
-        if (sec === currentSelectedSection) opt.selected = true;
-        sectionSelect.appendChild(opt);
-    });
-}
+    const sectionsForSemester = routineData?.sections_by_semester?.[currentSelectedSemester] || [];
 
-function attachEventHandlers() {
-    sectionSelect.addEventListener('change', (e) => {
-        currentSelectedSection = e.target.value;
-        renderSystemState();
-    });
-
-    prevMonthBtn.addEventListener('click', () => {
-        currentFocusedDate.setMonth(currentFocusedDate.getMonth() - 1);
-        renderCalendarGrid();
-    });
-
-    nextMonthBtn.addEventListener('click', () => {
-        currentFocusedDate.setMonth(currentFocusedDate.getMonth() + 1);
-        renderCalendarGrid();
-    });
-}
-
-function populateSectionDropdown() {
-    sectionSelect.innerHTML = "";
-    if (!routineData || !routineData.sections) return;
-    
-    routineData.sections.forEach(sec => {
+    sectionsForSemester.forEach(sec => {
         const opt = document.createElement('option');
         opt.value = sec;
         opt.textContent = `Section ${sec}`;
