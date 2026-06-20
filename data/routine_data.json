@@ -1,5 +1,4 @@
 {
-  "overright": false,
   "semesters": [
     "1",
     "2",
@@ -3808,6 +3807,5 @@
       "type": "holiday",
       "name": "May Day"
     }
-  },
-  "exceptions": {}
+  }
 }
