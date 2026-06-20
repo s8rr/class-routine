@@ -1,26 +1,323 @@
+/* ============================================================
+   DCSE Class Routine — Spring 2026
+   Design: clean university dashboard — ink blue + warm white
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue-dark:  #1a2744;
+  --blue-mid:   #2b4280;
+  --blue-light: #3a5bbf;
+  --blue-pale:  #dce6f9;
+  --accent:     #f59e0b;
+  --white:      #ffffff;
+  --off-white:  #f5f7fc;
+  --border:     #d0d9ee;
+  --text-main:  #1a2744;
+  --text-muted: #6275a3;
+  --card-bg:    #ffffff;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --shadow:     0 2px 12px rgba(26,39,68,.10);
+  --shadow-btn: 0 2px 8px rgba(42,66,128,.18);
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #000000;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--off-white);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Custom Minimalist Webkit Scrollbar System Theme Configuration Elements */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-::-webkit-scrollbar-track {
-    background: #000000; 
-}
-::-webkit-scrollbar-thumb {
-    background: #111111; 
-    border-radius: 3px;
-    border: 1px solid #1a1a1a;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #222222; 
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+  color: var(--white);
+  padding: 24px 32px;
+  box-shadow: 0 2px 16px rgba(26,39,68,.25);
 }
 
-/* Base Calendar Element Cell Overrides Animation Classes */
-.calendar-cell-node {
-    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+.header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.uni-logo {
+  width: 52px;
+  height: 52px;
+  background: var(--accent);
+  color: var(--blue-dark);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: .5px;
+  flex-shrink: 0;
+}
+
+.dept-name {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  opacity: .75;
+  margin-bottom: 4px;
+}
+
+.site-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.session-label {
+  font-size: .78rem;
+  opacity: .65;
+  margin-top: 3px;
+}
+
+/* ── MAIN ── */
+.main-content {
+  flex: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 36px 24px;
+  width: 100%;
+}
+
+/* ── STEP SECTIONS ── */
+.step-section {
+  margin-bottom: 32px;
+}
+
+.step-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+/* ── SEMESTER GRID: 2 rows × 4 cols ── */
+.semester-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.sem-btn {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: .92rem;
+  font-weight: 600;
+  padding: 14px 8px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s, box-shadow .15s, transform .1s;
+  box-shadow: var(--shadow);
+  text-align: center;
+  letter-spacing: .3px;
+}
+
+.sem-btn:hover {
+  border-color: var(--blue-light);
+  background: var(--blue-pale);
+  color: var(--blue-mid);
+  box-shadow: var(--shadow-btn);
+  transform: translateY(-2px);
+}
+
+.sem-btn.active {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+  color: var(--white);
+  box-shadow: 0 4px 14px rgba(26,39,68,.30);
+  transform: translateY(-2px);
+}
+
+/* ── SECTION DROPDOWN ── */
+.select-wrap {
+  position: relative;
+  display: inline-block;
+  min-width: 240px;
+}
+
+#section-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 44px 12px 16px;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: var(--shadow);
+  transition: border-color .15s, box-shadow .15s;
+}
+
+#section-select:focus {
+  outline: none;
+  border-color: var(--blue-light);
+  box-shadow: 0 0 0 3px rgba(58,91,191,.18);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* ── ROUTINE OUTPUT ── */
+.routine-output { margin-top: 8px; }
+
+.routine-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--blue-dark);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.session-tag {
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: var(--accent);
+  color: var(--blue-dark);
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+/* ── DAY BLOCK ── */
+.day-block {
+  margin-bottom: 28px;
+}
+
+.day-label {
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--blue-light);
+  padding: 6px 0 10px;
+  border-bottom: 2px solid var(--blue-pale);
+  margin-bottom: 12px;
+}
+
+/* ── CLASS LIST: horizontal scroll on mobile ── */
+.class-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+/* ── CLASS CARD ── */
+.class-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--blue-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  transition: box-shadow .15s, transform .15s;
+}
+
+.class-card:hover {
+  box-shadow: 0 4px 18px rgba(26,39,68,.13);
+  transform: translateY(-2px);
+}
+
+.class-time {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.class-subject {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--blue-dark);
+  margin-bottom: 8px;
+  letter-spacing: .3px;
+}
+
+.class-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.teacher-tag, .room-tag {
+  font-size: .72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.teacher-tag {
+  background: var(--blue-pale);
+  color: var(--blue-mid);
+}
+
+.room-tag {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* ── NO DATA ── */
+.no-data {
+  color: var(--text-muted);
+  font-size: .95rem;
+  font-style: italic;
+  padding: 24px 0;
+}
+
+/* ── FOOTER ── */
+.site-footer {
+  text-align: center;
+  font-size: .72rem;
+  color: var(--text-muted);
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  background: var(--white);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .semester-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .header-inner { gap: 14px; }
+  .site-title { font-size: 1.2rem; }
+  .class-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .main-content { padding: 24px 16px; }
+  .site-header { padding: 18px 16px; }
 }
