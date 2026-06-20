@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Class Routine | Image Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-[#888888] antialiased selection:bg-blue-500/30">
+
+    <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50">
+        <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></div>
+                <span class="text-white font-medium tracking-tight text-sm font-mono">C.S.E. Class Routine</span>
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="text-xs font-mono text-neutral-500 hover:text-white transition-colors">&larr; Routine</a>
+                <div class="text-xs font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2.5 py-1 rounded">
+                    Image Gallery
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-6 py-12 space-y-8">
+
+        <section class="space-y-4">
+            <div class="flex justify-between items-baseline gap-4 flex-wrap">
+                <div>
+                    <h2 class="text-xl font-bold text-white tracking-tight">Routine Images</h2>
+                    <p class="text-xs text-neutral-500 mt-1">Scanning <code class="text-neutral-400">routine_images/</code> for visual references. Click any thumbnail to inspect at full resolution.</p>
+                </div>
+                <span id="gallery-count" class="text-xs font-mono text-neutral-500 shrink-0">Indexing directory...</span>
+            </div>
+
+            <div class="relative w-full">
+                <input id="filter-input" type="text" placeholder="Filter by filename..." class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md pl-9 pr-3 py-2 text-sm text-white placeholder:text-neutral-600 focus:outline-none focus:border-neutral-700 transition-colors font-mono">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-neutral-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"></path></svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery-mount" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></section>
+
+        <section id="gallery-empty" class="hidden bg-[#050505] border border-neutral-900 rounded-xl p-10 text-center space-y-2">
+            <p id="gallery-empty-title" class="text-sm text-neutral-300 font-medium">No images found</p>
+            <p id="gallery-empty-body" class="text-xs text-neutral-500 font-mono leading-relaxed max-w-sm mx-auto"></p>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-neutral-900 bg-[#000000] mt-24">
+        <div class="max-w-3xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <div class="space-y-1 text-center sm:text-left">
+                <span class="text-white font-medium font-mono">Made by </span> <a href="https://sabbir.cc">sabbir</a>
+               <p class="text-[11px] text-neutral-600">Code <a href="https://github.com/s8rr/class-routine">repository </a></p>
+            </div>
+            <div class="text-neutral-500 font-mono">
+                System status: <span id="gallery-status" class="text-amber-500">Syncing</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="hidden fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm items-center justify-center p-6" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button id="lightbox-close" type="button" aria-label="Close" class="absolute top-4 right-4 bg-[#111] border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white p-2 rounded transition-colors focus:outline-none focus-visible:border-blue-500/60">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <button id="lightbox-prev" type="button" aria-label="Previous image" class="absolute left-4 top-1/2 -translate-y-1/2 bg-[#111] border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white p-2 rounded transition-colors focus:outline-none focus-visible:border-blue-500/60">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <button id="lightbox-next" type="button" aria-label="Next image" class="absolute right-4 top-1/2 -translate-y-1/2 bg-[#111] border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white p-2 rounded transition-colors focus:outline-none focus-visible:border-blue-500/60">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+        <figure class="max-w-[90vw] max-h-[85vh] flex flex-col items-center gap-3">
+            <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[75vh] rounded-lg border border-neutral-800 object-contain">
+            <figcaption id="lightbox-caption" class="text-xs font-mono text-neutral-500"></figcaption>
+        </figure>
+    </div>
+
+    <script src="gallery.js"></script>
+</body>
+</html>
