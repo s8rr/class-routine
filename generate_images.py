@@ -124,7 +124,7 @@ def generate_routine_images():
         ax.set_xlim(parse_time_to_minutes("08:15"), parse_time_to_minutes("13:30"))
         ax.set_ylim(-0.5, 4.5)
         
-        time_ticks = ["08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00","17:00"]
+        time_ticks = ["08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00","15:00"]
         tick_positions = [parse_time_to_minutes(t) for t in time_ticks]
         ax.set_xticks(tick_positions)
         ax.set_xticklabels(time_ticks, fontsize=10.5, fontweight='semibold', color='#495057')
