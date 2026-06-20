@@ -83,9 +83,9 @@ function handleSemesterSelect(sem) {
 
 function populateSectionDropdown() {
     sectionSelect.innerHTML = "";
-    const sectionsForSemester = routineData?.sections_by_semester?.[currentSelectedSemester] || [];
-
-    sectionsForSemester.forEach(sec => {
+    if (!routineData || !routineData.sections) return;
+    
+    routineData.sections.forEach(sec => {
         const opt = document.createElement('option');
         opt.value = sec;
         opt.textContent = `Section ${sec}`;
