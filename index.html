@@ -1,116 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSE Class Routine | Spring 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    
-    <style>
-        /* Colors Thursday (5th col) and Friday (6th col) red */
-        #calendar-days-grid > div:nth-child(7n+5),
-        #calendar-days-grid > div:nth-child(7n+6) {
-            color: #ef4444 !important; /* Tailwind's red-500 hex code */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSE Class Routine — Spring 2026</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="text-[#888888] antialiased selection:bg-blue-500/30">
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="uni-logo">PU</div>
+      <div class="header-text">
+        <p class="dept-name">Dept. of Computer Science &amp; Engineering</p>
+        <h1 class="site-title">Class Routine</h1>
+        <p class="session-label">Spring 2026 · Premier University</p>
+      </div>
+    </div>
+  </header>
 
-    <div class="max-w-3xl mx-auto px-6 pt-4">
-        <div class="text-[11px] text-amber-500/80 bg-amber-500/5 border border-amber-500/20 px-4 py-3 rounded-xl font-mono flex items-center gap-2.5">
-            <svg class="w-4 h-4 shrink-0 text-amber-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-            </svg>
-            <span><strong class="text-amber-500 font-semibold">Disclaimer:</strong> There is new routine and Updating site Soon.</span>
-        </div>
-    </div> 
+  <main class="main-content">
 
-    <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50 mt-2">
-        <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></div>
-                <span class="text-white font-medium tracking-tight text-sm font-mono">C.S.E. Class Routine</span>
-            </div>
-            <div class="text-xs font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2.5 py-1 rounded">
-                Spring 2026
-            </div>
-        </div>
-    </nav>
+    <!-- Step 1: Pick semester -->
+    <section class="step-section">
+      <h2 class="step-label">Select Semester</h2>
+      <div id="semester-grid" class="semester-grid"></div>
+    </section>
 
-    <main class="max-w-3xl mx-auto px-6 py-12 space-y-12">
-        
-       <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div class="bg-[#050505] border border-neutral-900 rounded-xl p-5 flex flex-col justify-between space-y-4">
-                <div>
-                    <h3 class="text-white text-sm font-semibold tracking-tight">Select Your Section</h3>
-                    <p class="text-xs text-neutral-500 mt-1">After selecting your section click on a date to check your class routine on that date.</p>
-                </div>
-                <div class="relative w-full">
-                    <select id="section-select" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md pl-3 pr-8 py-2 text-sm text-white focus:outline-none focus:border-neutral-700 transition-all appearance-none cursor-pointer font-mono">
-                        </select>
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-neutral-500">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </div>
-                </div>
-            </div>
+    <!-- Step 2: Pick section (shown after semester selected) -->
+    <section class="step-section" id="section-wrapper" style="display:none;">
+      <h2 class="step-label">Select Section</h2>
+      <div class="select-wrap">
+        <select id="section-select">
+          <option value="">— Select Section —</option>
+        </select>
+        <span class="select-arrow">▾</span>
+      </div>
+    </section>
 
-            <div class="md:col-span-2 bg-[#050505] border border-neutral-900 rounded-xl p-5 space-y-4">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h3 id="calendar-month-year" class="text-white text-sm font-semibold tracking-tight font-mono">Loading Month...</h3>
-                        <p class="text-xs text-neutral-500 mt-0.5">Click any calendar slot cell node to inspect active timeline data arrays.</p>
-                    </div>
-                    <div class="flex gap-1.5">
-                        <button id="prev-month" class="bg-[#111] border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white p-1.5 rounded transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                        </button>
-                        <button id="next-month" class="bg-[#111] border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white p-1.5 rounded transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-7 gap-1 text-center text-[11px] font-mono">
-                    <div class="text-neutral-600 font-medium py-1">S</div>
-                    <div class="text-neutral-600 font-medium py-1">M</div>
-                    <div class="text-neutral-600 font-medium py-1">T</div>
-                    <div class="text-neutral-600 font-medium py-1">W</div>
-                    <div class="text-red-500 font-medium py-1">T</div>
-                    <div class="text-red-500 font-medium py-1">F</div>
-                    <div class="text-neutral-600 font-medium py-1">S</div>
-                </div>
-                <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center text-xs font-mono">
-                    </div>
-            </div>
-        </section>
+    <!-- Routine output -->
+    <section id="routine-output" class="routine-output"></section>
 
-        <section class="space-y-4">
-            <div class="flex justify-between items-baseline">
-                <h2 class="text-xl font-bold text-white tracking-tight">Resolved Day Schedule</h2>
-                <span id="selected-date-string" class="text-xs font-mono text-neutral-500">Retrieving operational parameters...</span>
-            </div>
-            
-            <div id="schedule-output-mount" class="space-y-3">
-                </div>
-        </section>
-        
-    </main>
+  </main>
 
-    <footer class="border-t border-neutral-900 bg-[#000000] mt-24">
-        <div class="max-w-3xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
-            <div class="space-y-1 text-center sm:text-left">
-                <span class="text-white font-medium font-mono">Made by </span> <a href="https://sabbir.cc">sabbir</a>
-               <p class="text-[11px] text-neutral-600">Code <a href="https://github.com/s8rr/class-routine">repository </a></p> 
-            </div>
-            <div class="text-neutral-500 font-mono">
-                System status: <span class="text-green-500">Synced</span>
-            </div>
-        </div>
-    </footer>
+  <footer class="site-footer">
+    Premier University · DCSE · Spring 2026
+  </footer>
 
-    <script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
