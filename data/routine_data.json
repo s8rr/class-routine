@@ -3809,4 +3809,51 @@
       "name": "May Day"
     }
   }
+    "1F"
+  ],
+  "weekly_routine": {
+    "1A": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1B": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1C": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1D": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1E": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    },
+    "1F": {
+      "Saturday": [],
+      "Sunday": [],
+      "Monday": [],
+      "Tuesday": [],
+      "Wednesday": []
+    }
+  },
+  "exceptions": {}
 }

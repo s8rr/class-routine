@@ -1,7 +1,7 @@
 // System Application State Architecture Matrix
 let routineData = null;
 let currentSelectedSemester = "1";
-let currentSelectedSection = "1A";
+let currentSelectedSection = "1";
 let currentFocusedDate = new Date(); // Tracks Calendar Context Window view states
 let activeSelectedDate = new Date();  // Explicit day target picked by user operation
 
@@ -32,6 +32,7 @@ async function initializeApp() {
         currentSelectedSection = routineData.sections_by_semester?.[currentSelectedSemester]?.[0] || "1A";
 
         renderSemesterGrid();
+        
         populateSectionDropdown();
         attachEventHandlers();
         renderSystemState();
@@ -85,6 +86,36 @@ function populateSectionDropdown() {
     const sectionsForSemester = routineData?.sections_by_semester?.[currentSelectedSemester] || [];
 
     sectionsForSemester.forEach(sec => {
+        const opt = document.createElement('option');
+        opt.value = sec;
+        opt.textContent = `Section ${sec}`;
+        if (sec === currentSelectedSection) opt.selected = true;
+        sectionSelect.appendChild(opt);
+    });
+}
+
+function attachEventHandlers() {
+    sectionSelect.addEventListener('change', (e) => {
+        currentSelectedSection = e.target.value;
+        renderSystemState();
+    });
+
+    prevMonthBtn.addEventListener('click', () => {
+        currentFocusedDate.setMonth(currentFocusedDate.getMonth() - 1);
+        renderCalendarGrid();
+    });
+
+    nextMonthBtn.addEventListener('click', () => {
+        currentFocusedDate.setMonth(currentFocusedDate.getMonth() + 1);
+        renderCalendarGrid();
+    });
+}
+
+function populateSectionDropdown() {
+    sectionSelect.innerHTML = "";
+    if (!routineData || !routineData.sections) return;
+    
+    routineData.sections.forEach(sec => {
         const opt = document.createElement('option');
         opt.value = sec;
         opt.textContent = `Section ${sec}`;
