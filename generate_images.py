@@ -66,7 +66,7 @@ def generate_routine_images():
         
         # Grid lines tracking from 08:00 to 14:00 (every 30 mins)
         start_min = parse_time_to_minutes("08:00")
-        end_min = parse_time_to_minutes("14:00")
+        end_min = parse_time_to_minutes("16:00")
         for mins in range(start_min, end_min + 1, 30):
             ax.axvline(mins, color='#E5E5E5', linestyle='--', linewidth=0.8, zorder=0)
 
@@ -124,7 +124,7 @@ def generate_routine_images():
         ax.set_xlim(parse_time_to_minutes("08:15"), parse_time_to_minutes("13:30"))
         ax.set_ylim(-0.5, 4.5)
         
-        time_ticks = ["08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00"]
+        time_ticks = ["08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00","13:30","14:00","14:30","15:00","15:30","16:00"]
         tick_positions = [parse_time_to_minutes(t) for t in time_ticks]
         ax.set_xticks(tick_positions)
         ax.set_xticklabels(time_ticks, fontsize=10.5, fontweight='semibold', color='#495057')
