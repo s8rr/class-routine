@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'routine.pdf'
+      - 'routine.xlsx'
       - 'scripts/extract_routine.py'
       - 'index.html'           # Triggers if you update your frontend
       - 'app.js'                # OPTIONAL: Add if you have a JS folder
@@ -67,7 +67,7 @@ jobs:
           fi
           echo "SKIP_COMMIT=$SKIP_COMMIT" >> $GITHUB_ENV
 
-      - name: Extract Data from PDF
+      - name: Extract Data from XLSX
         run: |
           python scripts/extract_routine.py
 

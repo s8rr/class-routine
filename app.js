@@ -1,10 +1,12 @@
 // System Application State Architecture Matrix
 let routineData = null;
-let currentSelectedSection = "1D";
-let currentFocusedDate = new Date(); 
-let activeSelectedDate = new Date(); 
+let currentSelectedSemester = "1";
+let currentSelectedSection = "1";
+let currentFocusedDate = new Date(); // Tracks Calendar Context Window view states
+let activeSelectedDate = new Date();  // Explicit day target picked by user operation
 
 // Target Document DOM Node Pointers
+const semesterGrid = document.getElementById('semester-grid');
 const sectionSelect = document.getElementById('section-select');
 const calendarMonthYearHeader = document.getElementById('calendar-month-year');
 const calendarDaysGrid = document.getElementById('calendar-days-grid');
@@ -21,10 +23,15 @@ const indexToDayMap = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "
  */
 async function initializeApp() {
     try {
-        // FIXED: Added an anti-cache query string parameter to force the browser to read fresh JSON updates immediately
-        const response = await fetch(`data/routine_data.json?v=${new Date().getTime()}`);
+        const response = await fetch('data/routine_data.json');
         if (!response.ok) throw new Error("Database pipeline network sync exception.");
         routineData = await response.json();
+
+        // Default to the first semester / first section reported by the data store.
+        currentSelectedSemester = routineData.semesters?.[0] || "1";
+        currentSelectedSection = routineData.sections_by_semester?.[currentSelectedSemester]?.[0] || "1A";
+
+        renderSemesterGrid();
         
         populateSectionDropdown();
         attachEventHandlers();
@@ -38,11 +45,51 @@ async function initializeApp() {
     }
 }
 
+/**
+ * Build the 2x4 semester selector grid (8 semesters -> 2 columns x 4 rows)
+ * and visually highlight whichever semester is currently active.
+ */
+function renderSemesterGrid() {
+    semesterGrid.innerHTML = "";
+    if (!routineData || !routineData.semesters) return;
+
+    const baseClasses = "px-3 py-2.5 rounded-md text-xs font-semibold tracking-wide border transition-colors duration-150 cursor-pointer";
+    const inactiveClasses = "bg-[#0a0a0a] border-neutral-800 text-neutral-400 hover:bg-neutral-900 hover:text-white hover:border-neutral-700";
+    const activeClasses = "bg-blue-600 border-blue-600 text-white shadow-sm shadow-blue-500/30";
+
+    routineData.semesters.forEach(sem => {
+        const btn = document.createElement('button');
+        btn.type = "button";
+        btn.textContent = `SEM ${sem}`;
+        btn.className = `${baseClasses} ${sem === currentSelectedSemester ? activeClasses : inactiveClasses}`;
+        btn.addEventListener('click', () => handleSemesterSelect(sem));
+        semesterGrid.appendChild(btn);
+    });
+}
+
+/**
+ * Handle a semester button tap: switch the active semester, snap the
+ * section dropdown to that semester's first section, and re-render.
+ */
+function handleSemesterSelect(sem) {
+    if (sem === currentSelectedSemester) return;
+    currentSelectedSemester = sem;
+    currentSelectedSection = routineData.sections_by_semester?.[sem]?.[0] || currentSelectedSection;
+
+    renderSemesterGrid();
+    populateSectionDropdown();
+    renderSystemState();
+}
+
+/**
+ * Populate the section dropdown using ONLY the sections that belong to
+ * the currently selected semester (fixes "dropdown shows all sections" bug).
+ */
 function populateSectionDropdown() {
     sectionSelect.innerHTML = "";
-    if (!routineData || !routineData.sections) return;
-    
-    routineData.sections.forEach(sec => {
+    const sectionsForSemester = routineData?.sections_by_semester?.[currentSelectedSemester] || [];
+
+    sectionsForSemester.forEach(sec => {
         const opt = document.createElement('option');
         opt.value = sec;
         opt.textContent = `Section ${sec}`;
@@ -164,8 +211,14 @@ function renderTimetableStream() {
         return;
     }
     
-    // Check Pipeline Priority 2: Extract weekly routine template data
+    // Check Pipeline Priority 2: Weekend Off-Day Check (Friday fallback standard example context)
     const dayNameStr = indexToDayMap[activeSelectedDate.getDay()];
+    if (dayNameStr === "Friday" || dayNameStr === "Thursday") {
+        renderEmptyStateCard("Standard System Maintenance Weekend Holiday");
+        return;
+    }
+    
+    // Check Pipeline Priority 3: Extract weekly routine template data
     const sectionRoutineContext = routineData?.weekly_routine?.[currentSelectedSection];
     const classesForDayArray = sectionRoutineContext?.[dayNameStr] || [];
     
