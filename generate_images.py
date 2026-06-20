@@ -66,7 +66,7 @@ def generate_routine_images():
         
         # Grid lines tracking from 08:00 to 14:00 (every 30 mins)
         start_min = parse_time_to_minutes("08:00")
-        end_min = parse_time_to_minutes("14:00")
+        end_min = parse_time_to_minutes("16:00")
         for mins in range(start_min, end_min + 1, 30):
             ax.axvline(mins, color='#E5E5E5', linestyle='--', linewidth=0.8, zorder=0)
 
