@@ -117,7 +117,7 @@
       "Saturday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "RMA",
           "room": "902"
         },
@@ -191,7 +191,7 @@
       "Wednesday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "RMA",
           "room": "404"
         },
@@ -209,7 +209,7 @@
       "Saturday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "RMA",
           "room": "902"
         },
@@ -271,7 +271,7 @@
       "Wednesday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "RMA",
           "room": "404"
         },
@@ -301,7 +301,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "RMA",
           "room": "902"
         },
@@ -375,7 +375,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "RMA",
           "room": "404"
         },
@@ -405,7 +405,7 @@
         },
         {
           "time": "12:15 PM - 01:30 PM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "Ataur",
           "room": "611"
         }
@@ -447,7 +447,7 @@
       "Tuesday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -485,7 +485,7 @@
       "Saturday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -519,7 +519,7 @@
       "Monday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "Ataur",
           "room": "612"
         },
@@ -583,7 +583,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -637,7 +637,7 @@
       "Tuesday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE",
+          "subject": "GE (General English)",
           "teacher": "Ataur",
           "room": "611"
         },
