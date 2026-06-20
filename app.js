@@ -60,7 +60,7 @@ function renderSemesterGrid() {
     routineData.semesters.forEach(sem => {
         const btn = document.createElement('button');
         btn.type = "button";
-        btn.textContent = `Semester ${sem}`;
+        btn.textContent = `SEM ${sem}`;
         btn.className = `${baseClasses} ${sem === currentSelectedSemester ? activeClasses : inactiveClasses}`;
         btn.addEventListener('click', () => handleSemesterSelect(sem));
         semesterGrid.appendChild(btn);
