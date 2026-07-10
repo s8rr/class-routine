@@ -29,7 +29,7 @@ async function initializeApp() {
 
         // Default to the first semester / first section reported by the data store.
         currentSelectedSemester = routineData.semesters?.[0] || "1";
-        currentSelectedSection = routineData.sections_by_semester?.[currentSelectedSemester]?.[0] || "1A";
+        currentSelectedSection = routineData.sections_by_semester?.[currentSelectedSemester]?.[0] || "1D";
 
         renderSemesterGrid();
         
