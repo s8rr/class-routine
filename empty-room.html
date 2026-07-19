@@ -21,6 +21,7 @@
             <span><strong class="text-amber-500 font-semibold">Disclaimer:</strong> there might be few rooms that are occupied but shows empty.</span>
         </div>
     </div> 
+
   
   <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50">
     <div class="max-w-2xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -98,6 +99,7 @@
 
 <script>
 const DATA_URL = "data/routine_data.json";
+const VALID_ROOM_PATTERN = /^\d{3,4}$/; // real rooms are 3-4 digit numbers; filters out data typos like "03"
 
 let routineData = null;
 let allRooms = new Set();
@@ -152,15 +154,26 @@ async function loadData() {
 
     // Collect every room that appears anywhere in the dataset
     const weekly = routineData.weekly_routine || {};
+    const invalidRoomCodes = new Set();
     Object.values(weekly).forEach(sectionRoutine => {
       Object.values(sectionRoutine).forEach(daySlots => {
         daySlots.forEach(slot => {
-          if (slot.room) allRooms.add(slot.room.trim());
+          const room = (slot.room || "").trim();
+          if (!room) return;
+          if (VALID_ROOM_PATTERN.test(room)) {
+            allRooms.add(room);
+          } else {
+            invalidRoomCodes.add(room);
+          }
         });
       });
     });
 
-    statusLine.textContent = `Loaded ${Object.keys(weekly).length} sections · ${allRooms.size} known rooms`;
+    let statusMsg = `Loaded ${Object.keys(weekly).length} sections · ${allRooms.size} known rooms`;
+    if (invalidRoomCodes.size > 0) {
+      statusMsg += ` · ignored malformed room code(s) in source data: ${[...invalidRoomCodes].join(", ")}`;
+    }
+    statusLine.textContent = statusMsg;
     checkBtn.disabled = false;
     runCheck();
   } catch (err) {
@@ -183,10 +196,10 @@ function runCheck() {
   Object.entries(weekly).forEach(([section, sectionRoutine]) => {
     const daySlots = sectionRoutine[day] || [];
     daySlots.forEach(slot => {
-      if (!slot.room) return;
+      const room = (slot.room || "").trim();
+      if (!VALID_ROOM_PATTERN.test(room)) return; // skip malformed room codes in source data
       const range = parseRange(slot.time);
       if (range.start === null || range.end === null) return;
-      const room = slot.room.trim();
 
       if (!roomDaySlots.has(room)) roomDaySlots.set(room, []);
       roomDaySlots.get(room).push(range);
