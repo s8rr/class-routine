@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empty Room Finder | CSE Routine</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .font-mono-ui { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+</style>
+</head>
+<body class="bg-black text-[#888888] antialiased selection:bg-blue-500/30 min-h-screen">
+
+  <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50">
+    <div class="max-w-2xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></div>
+        <span class="text-white font-medium tracking-tight text-sm font-mono">Empty Room Finder</span>
+      </div>
+      <div class="text-xs font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2.5 py-1 rounded">
+        CSE · Spring 2026
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-2xl mx-auto px-6 py-10 space-y-8">
+
+    <div class="space-y-1">
+      <h1 class="text-white text-lg font-semibold tracking-tight">Find a free room</h1>
+      <p class="text-sm text-neutral-500">Pick a day and a time — see every room with no class scheduled right then, across all sections.</p>
+    </div>
+
+    <div class="bg-[#050505] border border-neutral-900 rounded-xl p-5 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="space-y-1.5">
+          <label class="text-xs font-mono text-neutral-500">Day</label>
+          <div class="relative">
+            <select id="day-select" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md pl-3 pr-8 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 appearance-none cursor-pointer font-mono">
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-neutral-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-mono text-neutral-500">Time</label>
+          <input id="time-input" type="time" value="11:00"
+            class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md px-3 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 font-mono [color-scheme:dark]">
+        </div>
+      </div>
+
+      <button id="check-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium py-2.5 rounded-md transition-colors font-mono">
+        Check available rooms
+      </button>
+
+      <p id="status-line" class="text-xs font-mono text-neutral-600">Loading routine data…</p>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex justify-between items-baseline">
+        <h2 class="text-white text-sm font-semibold tracking-tight">Empty Rooms</h2>
+        <span id="result-summary" class="text-xs font-mono text-neutral-500"></span>
+      </div>
+      <div id="empty-rooms-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+    </div>
+
+    <details class="bg-[#050505] border border-neutral-900 rounded-xl p-5">
+      <summary class="text-white text-sm font-semibold cursor-pointer">Rooms in use right now</summary>
+      <div id="busy-rooms-list" class="mt-4 space-y-2 text-xs font-mono"></div>
+    </details>
+
+  </main>
+
+  <footer class="border-t border-neutral-900 bg-[#000000] mt-16">
+    <div class="max-w-2xl mx-auto px-6 py-8 text-center text-xs text-neutral-600 font-mono">
+      Data source: <a href="https://github.com/s8rr/class-routine" class="text-neutral-400 hover:text-white">s8rr/class-routine</a>
+    </div>
+  </footer>
+
+<script>
+const DATA_URL = "https://raw.githubusercontent.com/s8rr/class-routine/main/data/routine_data.json";
+
+let routineData = null;
+let allRooms = new Set();
+
+const statusLine = document.getElementById('status-line');
+const daySelect = document.getElementById('day-select');
+const timeInput = document.getElementById('time-input');
+const checkBtn = document.getElementById('check-btn');
+const emptyGrid = document.getElementById('empty-rooms-grid');
+const busyList = document.getElementById('busy-rooms-list');
+const resultSummary = document.getElementById('result-summary');
+
+// Default day = today
+const dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+daySelect.value = dayNames[new Date().getDay()];
+
+function parseTimeToMinutes(str) {
+  // "08:30 AM"
+  const m = str.trim().match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!m) return null;
+  let [_, h, min, ap] = m;
+  h = parseInt(h, 10);
+  min = parseInt(min, 10);
+  ap = ap.toUpperCase();
+  if (ap === "PM" && h !== 12) h += 12;
+  if (ap === "AM" && h === 12) h = 0;
+  return h * 60 + min;
+}
+
+function parseRange(rangeStr) {
+  const [startStr, endStr] = rangeStr.split(" - ");
+  return {
+    start: parseTimeToMinutes(startStr),
+    end: parseTimeToMinutes(endStr)
+  };
+}
+
+async function loadData() {
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error("Network response was not ok");
+    routineData = await res.json();
+
+    // Collect every room that appears anywhere in the dataset
+    const weekly = routineData.weekly_routine || {};
+    Object.values(weekly).forEach(sectionRoutine => {
+      Object.values(sectionRoutine).forEach(daySlots => {
+        daySlots.forEach(slot => {
+          if (slot.room) allRooms.add(slot.room.trim());
+        });
+      });
+    });
+
+    statusLine.textContent = `Loaded ${Object.keys(weekly).length} sections · ${allRooms.size} known rooms`;
+    checkBtn.disabled = false;
+    runCheck();
+  } catch (err) {
+    statusLine.textContent = "Failed to load routine data. Check your connection and try refreshing.";
+    console.error(err);
+  }
+}
+
+function runCheck() {
+  if (!routineData) return;
+
+  const day = daySelect.value;
+  const [hh, mm] = timeInput.value.split(":").map(Number);
+  const queryMinutes = hh * 60 + mm;
+
+  const busyRooms = new Map(); // room -> array of {section, subject, time}
+
+  const weekly = routineData.weekly_routine || {};
+  Object.entries(weekly).forEach(([section, sectionRoutine]) => {
+    const daySlots = sectionRoutine[day] || [];
+    daySlots.forEach(slot => {
+      if (!slot.room) return;
+      const range = parseRange(slot.time);
+      if (range.start === null || range.end === null) return;
+      if (queryMinutes >= range.start && queryMinutes < range.end) {
+        const room = slot.room.trim();
+        if (!busyRooms.has(room)) busyRooms.set(room, []);
+        busyRooms.get(room).push({ section, subject: slot.subject, time: slot.time, teacher: slot.teacher });
+      }
+    });
+  });
+
+  const emptyRooms = [...allRooms].filter(r => !busyRooms.has(r)).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+  // Render empty rooms
+  emptyGrid.innerHTML = "";
+  if (emptyRooms.length === 0) {
+    emptyGrid.innerHTML = `<div class="col-span-full text-sm text-neutral-500 font-mono py-4 text-center">No free rooms found at this time.</div>`;
+  } else {
+    emptyRooms.forEach(room => {
+      const el = document.createElement("div");
+      el.className = "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-mono text-center py-2.5 rounded-lg";
+      el.textContent = room;
+      emptyGrid.appendChild(el);
+    });
+  }
+
+  resultSummary.textContent = `${emptyRooms.length} free / ${allRooms.size} rooms · ${day} ${timeInput.value}`;
+
+  // Render busy rooms detail
+  busyList.innerHTML = "";
+  if (busyRooms.size === 0) {
+    busyList.innerHTML = `<div class="text-neutral-600">No classes running at this time.</div>`;
+  } else {
+    [...busyRooms.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true }))
+      .forEach(([room, entries]) => {
+        entries.forEach(e => {
+          const row = document.createElement("div");
+          row.className = "flex justify-between border-b border-neutral-900 pb-2";
+          row.innerHTML = `
+            <span class="text-white">Room ${room}</span>
+            <span class="text-neutral-500">${e.section} · ${e.subject} · ${e.teacher} · ${e.time}</span>
+          `;
+          busyList.appendChild(row);
+        });
+      });
+  }
+}
+
+checkBtn.addEventListener("click", runCheck);
+daySelect.addEventListener("change", runCheck);
+timeInput.addEventListener("change", runCheck);
+
+checkBtn.disabled = true;
+loadData();
+</script>
+</body>
+</html>
