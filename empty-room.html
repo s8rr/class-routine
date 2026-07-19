@@ -13,15 +13,6 @@
 </head>
 <body class="bg-black text-[#888888] antialiased selection:bg-blue-500/30 min-h-screen">
 
-    <div class="max-w-3xl mx-auto px-6 pt-4">
-        <div class="text-[11px] text-amber-500/80 bg-amber-500/5 border border-amber-500/20 px-4 py-3 rounded-xl font-mono flex items-center gap-2.5">
-            <svg class="w-4 h-4 shrink-0 text-amber-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-            </svg>
-            <span><strong class="text-amber-500 font-semibold">Disclaimer:</strong> There might be few rooms that are occupied but shows empty. </span>
-        </div>
-    </div> 
-  
   <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50">
     <div class="max-w-2xl mx-auto px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -80,7 +71,7 @@
         <h2 class="text-white text-sm font-semibold tracking-tight">Empty Rooms</h2>
         <span id="result-summary" class="text-xs font-mono text-neutral-500"></span>
       </div>
-      <div id="empty-rooms-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+      <div id="empty-rooms-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
     </div>
 
     <details class="bg-[#050505] border border-neutral-900 rounded-xl p-5">
@@ -135,6 +126,15 @@ function parseRange(rangeStr) {
   };
 }
 
+function formatMinutes(mins) {
+  let h = Math.floor(mins / 60);
+  const m = mins % 60;
+  const ap = h >= 12 ? "PM" : "AM";
+  h = h % 12;
+  if (h === 0) h = 12;
+  return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")} ${ap}`;
+}
+
 async function loadData() {
   try {
     const res = await fetch(DATA_URL);
@@ -167,7 +167,8 @@ function runCheck() {
   const [hh, mm] = timeInput.value.split(":").map(Number);
   const queryMinutes = hh * 60 + mm;
 
-  const busyRooms = new Map(); // room -> array of {section, subject, time}
+  const busyRooms = new Map();   // room -> array of {section, subject, time, teacher}
+  const roomDaySlots = new Map(); // room -> array of {start, end} for EVERY slot that day, any section
 
   const weekly = routineData.weekly_routine || {};
   Object.entries(weekly).forEach(([section, sectionRoutine]) => {
@@ -176,25 +177,50 @@ function runCheck() {
       if (!slot.room) return;
       const range = parseRange(slot.time);
       if (range.start === null || range.end === null) return;
+      const room = slot.room.trim();
+
+      if (!roomDaySlots.has(room)) roomDaySlots.set(room, []);
+      roomDaySlots.get(room).push(range);
+
       if (queryMinutes >= range.start && queryMinutes < range.end) {
-        const room = slot.room.trim();
         if (!busyRooms.has(room)) busyRooms.set(room, []);
         busyRooms.get(room).push({ section, subject: slot.subject, time: slot.time, teacher: slot.teacher });
       }
     });
   });
 
-  const emptyRooms = [...allRooms].filter(r => !busyRooms.has(r)).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  const DAY_END = 21 * 60; // 09:00 PM cutoff for "free for rest of day" display
+
+  const emptyRooms = [...allRooms]
+    .filter(r => !busyRooms.has(r))
+    .map(room => {
+      const slots = roomDaySlots.get(room) || [];
+      // Next class in this room that starts after the query time
+      const nextStart = slots
+        .map(s => s.start)
+        .filter(start => start > queryMinutes)
+        .sort((a, b) => a - b)[0];
+
+      const freeUntil = nextStart !== undefined ? nextStart : null;
+      return { room, freeUntil };
+    })
+    .sort((a, b) => a.room.localeCompare(b.room, undefined, { numeric: true }));
 
   // Render empty rooms
   emptyGrid.innerHTML = "";
   if (emptyRooms.length === 0) {
     emptyGrid.innerHTML = `<div class="col-span-full text-sm text-neutral-500 font-mono py-4 text-center">No free rooms found at this time.</div>`;
   } else {
-    emptyRooms.forEach(room => {
+    emptyRooms.forEach(({ room, freeUntil }) => {
+      const label = freeUntil !== null
+        ? `Free until ${formatMinutes(freeUntil)}`
+        : `Free for rest of day`;
       const el = document.createElement("div");
-      el.className = "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-mono text-center py-2.5 rounded-lg";
-      el.textContent = room;
+      el.className = "bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-center py-2.5 px-1 flex flex-col items-center gap-0.5";
+      el.innerHTML = `
+        <span class="text-emerald-400 text-sm font-mono">${room}</span>
+        <span class="text-emerald-600 text-[10px] font-mono">${label}</span>
+      `;
       emptyGrid.appendChild(el);
     });
   }
