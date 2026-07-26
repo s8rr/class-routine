@@ -117,7 +117,7 @@
       "Saturday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "902"
         },
@@ -146,6 +146,12 @@
           "subject": "DIC",
           "teacher": "KLD",
           "room": "403"
+        },
+        {
+          "time": "11:00 AM - 01:30 PM",
+          "subject": "CFE",
+          "teacher": "AMS",
+          "room": "902"
         },
         {
           "time": "01:30 PM - 04:00 PM",
@@ -185,7 +191,7 @@
       "Wednesday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "404"
         },
@@ -203,7 +209,7 @@
       "Saturday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "902"
         },
@@ -255,11 +261,17 @@
         }
       ],
       "Tuesday": [
+        {
+          "time": "08:30 AM - 11:00 AM",
+          "subject": "CFE",
+          "teacher": "AMS",
+          "room": "902"
+        }
       ],
       "Wednesday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "404"
         },
@@ -289,7 +301,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "902"
         },
@@ -356,8 +368,14 @@
       ],
       "Wednesday": [
         {
+          "time": "08:30 AM - 11:00 AM",
+          "subject": "CFE",
+          "teacher": "AMS",
+          "room": "902"
+        },
+        {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "404"
         },
@@ -387,7 +405,7 @@
         },
         {
           "time": "12:15 PM - 01:30 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         }
@@ -413,11 +431,23 @@
         }
       ],
       "Monday": [
+        {
+          "time": "08:30 AM - 11:00 AM",
+          "subject": "CFE",
+          "teacher": "AMS",
+          "room": "901"
+        },
+        {
+          "time": "11:00 AM - 12:15 PM",
+          "subject": "IEE",
+          "teacher": "CFK",
+          "room": "405"
+        }
       ],
       "Tuesday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -455,7 +485,7 @@
       "Saturday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -489,7 +519,7 @@
       "Monday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "612"
         },
@@ -499,6 +529,12 @@
           "teacher": "MTS",
           "room": "903"
         },
+        {
+          "time": "11:00 AM - 01:30 PM",
+          "subject": "CFE",
+          "teacher": "AMS",
+          "room": "903"
+        }
       ],
       "Tuesday": [
         {
@@ -547,7 +583,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -601,7 +637,7 @@
       "Tuesday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -613,6 +649,12 @@
         }
       ],
       "Wednesday": [
+        {
+          "time": "08:30 AM - 11:00 AM",
+          "subject": "CFE",
+          "teacher": "MFF",
+          "room": "1003"
+        },
         {
           "time": "11:00 AM - 12:15 PM",
           "subject": "PF",
