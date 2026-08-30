@@ -47,7 +47,8 @@
     "5": [
       "5A",
       "5B",
-      "5C"
+      "5C1",
+      "5C2"
     ],
     "6": [
       "6A",
@@ -97,7 +98,8 @@
     "4G",
     "5A",
     "5B",
-    "5C",
+    "5C1",
+    "5C2",
     "6A",
     "6B",
     "6C",
@@ -117,7 +119,7 @@
       "Saturday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "902"
         },
@@ -191,7 +193,7 @@
       "Wednesday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "404"
         },
@@ -209,7 +211,7 @@
       "Saturday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "902"
         },
@@ -266,12 +268,18 @@
           "subject": "CFE",
           "teacher": "AMS",
           "room": "902"
+        },
+        {
+          "time": "11:15 AM - 11:30 PM",
+          "subject": "DIC",
+          "teacher": "KLD",
+          "room": "611"
         }
       ],
       "Wednesday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "404"
         },
@@ -301,7 +309,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "902"
         },
@@ -354,12 +362,6 @@
       ],
       "Tuesday": [
         {
-          "time": "09:45 AM - 11:00 AM",
-          "subject": "DIC",
-          "teacher": "KLD",
-          "room": "903"
-        },
-        {
           "time": "11:00 AM - 01:30 PM",
           "subject": "IEEL",
           "teacher": "CFK",
@@ -375,7 +377,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "RMA",
           "room": "404"
         },
@@ -405,7 +407,7 @@
         },
         {
           "time": "12:15 PM - 01:30 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         }
@@ -447,7 +449,7 @@
       "Tuesday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -485,7 +487,7 @@
       "Saturday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -519,7 +521,7 @@
       "Monday": [
         {
           "time": "08:30 AM - 09:45 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "612"
         },
@@ -583,7 +585,7 @@
         },
         {
           "time": "11:00 AM - 12:15 PM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -637,7 +639,7 @@
       "Tuesday": [
         {
           "time": "09:45 AM - 11:00 AM",
-          "subject": "GE (General English)",
+          "subject": "GE",
           "teacher": "Ataur",
           "room": "611"
         },
@@ -2602,7 +2604,7 @@
       "Thursday": [],
       "Friday": []
     },
-    "5C": {
+    "5C1": {
       "Saturday": [
         {
           "time": "08:30 AM - 11:00 AM",
@@ -2610,6 +2612,92 @@
           "teacher": "TMC",
           "room": "905"
         },
+        {
+          "time": "02:45 PM - 04:00 PM",
+          "subject": "COA",
+          "teacher": "MAHBUBUL",
+          "room": "405"
+        }
+      ],
+      "Sunday": [
+        {
+          "time": "12:15 PM - 01:30 PM",
+          "subject": "OS",
+          "teacher": "AJT",
+          "room": "611"
+        },
+        {
+          "time": "02:45 PM - 04:00 PM",
+          "subject": "SAP",
+          "teacher": "FORKAN",
+          "room": "610"
+        }
+      ],
+      "Monday": [
+        {
+          "time": "09:45 AM - 11:00 AM",
+          "subject": "OS",
+          "teacher": "AJT",
+          "room": "410"
+        },
+        {
+          "time": "11:00 AM - 12:15 PM",
+          "subject": "AI",
+          "teacher": "TASMIN",
+          "room": "406"
+        },
+        {
+          "time": "12:15 PM - 01:30 PM",
+          "subject": "ISD",
+          "teacher": "TMC",
+          "room": "902"
+        }
+      ],
+      "Tuesday": [
+        {
+          "time": "11:00 AM - 01:30 PM",
+          "subject": "AIL",
+          "teacher": "RA",
+          "room": "1008"
+        },
+        {
+          "time": "01:30 PM - 02:45 PM",
+          "subject": "COA",
+          "teacher": "MAHBUBUL",
+          "room": "510"
+        },
+        {
+          "time": "02:45 PM - 04:00 PM",
+          "subject": "SAP",
+          "teacher": "FORKAN",
+          "room": "610"
+        }
+      ],
+      "Wednesday": [
+        {
+          "time": "11:00 AM - 12:15 PM",
+          "subject": "ISD",
+          "teacher": "TMC",
+          "room": "910"
+        },
+        {
+          "time": "12:15 PM - 01:30 PM",
+          "subject": "AI",
+          "teacher": "TASMIN",
+          "room": "1001"
+        },
+        {
+          "time": "01:30 PM - 02:45 PM",
+          "subject": "OSL",
+          "teacher": "AJT",
+          "room": "606"
+        }
+      ],
+      "Thursday": [],
+      "Friday": []
+    },
+    "5C2": {
+      "Saturday": [
         {
           "time": "09:45 AM - 11:00 AM",
           "subject": "OSL",
@@ -2671,12 +2759,6 @@
       ],
       "Tuesday": [
         {
-          "time": "11:00 AM - 01:30 PM",
-          "subject": "AIL",
-          "teacher": "RA",
-          "room": "1008"
-        },
-        {
           "time": "01:30 PM - 02:45 PM",
           "subject": "COA",
           "teacher": "MAHBUBUL",
@@ -2701,12 +2783,6 @@
           "subject": "AI",
           "teacher": "TASMIN",
           "room": "1001"
-        },
-        {
-          "time": "01:30 PM - 02:45 PM",
-          "subject": "OSL",
-          "teacher": "AJT",
-          "room": "606"
         }
       ],
       "Thursday": [],

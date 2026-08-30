@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE Class Routine | Spring 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Course catalog accordion */
+        .catalog-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+        }
+        .catalog-panel.open {
+            max-height: 900px;
+        }
+        .catalog-chevron {
+            transition: transform 0.2s ease;
+        }
+        .catalog-chevron.open {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-[#888888] antialiased selection:bg-blue-500/30 min-h-screen flex flex-col justify-between">
+
+    <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></div>
+                <span class="text-white font-medium tracking-tight text-sm font-mono">C.S.E. Class Routine</span>
+            </div>
+            <a href="test.html" id="about-btn" class="text-xs text-neutral-400 hover:text-white transition-colors font-mono">Empty Room</a>
+            <div class="text-xs font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2.5 py-1 rounded">
+                Spring 2026
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-10 w-full space-y-6">
+        <div class="flex justify-between items-baseline">
+            <h2 class="text-xl font-bold text-white tracking-tight">Course Catalog</h2>
+            <span class="text-xs font-mono text-neutral-500">8 Semesters</span>
+        </div>
+
+        <!-- 2x4 Grid Container -->
+        <div id="catalog-mount" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </main>
+
+    <footer class="border-t border-neutral-900 bg-[#000000] mt-12">
+        <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <div class="space-y-1 text-center sm:text-left">
+                <span class="text-white font-medium font-mono">Made by </span> <a href="https://sabbir.cc" class="underline hover:text-white transition-colors">sabbir</a>
+                <p class="text-[11px] text-neutral-600">Code <a href="https://github.com/s8rr/class-routine" class="underline hover:text-neutral-400 transition-colors">repository</a></p> 
+            </div>
+            <div class="text-neutral-500 font-mono">
+                System status: <span class="text-green-500">Synced</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const CATALOG_DATA = [
+            {
+                title: "1st Semester",
+                courses: [
+                    ["BAN 1101(V4)", "Functional Bengali Language", 2],
+                    ["CSE 1111(V4)", "Computer Fundamentals and Ethics", 1.5],
+                    ["CSE 1113(V4)", "Programming Fundamentals", 3],
+                    ["CSE 1114(V4)", "Programming Fundamentals Laboratory", 1.5],
+                    ["EEE 1101(V4)", "Introduction to Electrical Engineering", 3],
+                    ["EEE 1102(V4)", "Introduction to Electrical Engineering Laboratory", 1.5],
+                    ["ENG 1101(V4)", "General English", 3],
+                    ["MAT 1203(V4)", "Differential and Integral Calculus", 3],
+                    ["ME 1104(V4)", "Mechanical Engineering Drawing", 0.75],
+                ]
+            },
+            {
+                title: "2nd Semester",
+                courses: [
+                    ["CSE 1110(V4)", "Competitive Programming Laboratory", 0.75],
+                    ["CSE 1411(V4)", "Discrete Mathematics and Number Theory", 3],
+                    ["CSE 1413(V4)", "Data Structures", 3],
+                    ["CSE 1414(V4)", "Data Structures Laboratory", 1.5],
+                    ["ECO 1101(V4)", "Engineering Economics", 3],
+                    ["EEE 1201(V4)", "Electronics Devices and Circuits", 3],
+                    ["EEE 1202(V4)", "Electronics Device and Circuits Laboratory", 1.5],
+                    ["PHY 1103(V4)", "Introduction to Classical & Modern Physics", 3],
+                    ["PHY 1104(V4)", "Physics Laboratory", 0.75],
+                ]
+            },
+            {
+                title: "3rd Semester",
+                courses: [
+                    ["CSE 1115(V4)", "Object Oriented Programming", 3],
+                    ["CSE 1116(V4)", "Object Oriented Programming Laboratory", 1.5],
+                    ["CSE 3210(V4)", "Internet Programming", 1.5],
+                    ["EEE 2201(V4)", "Digital Electronics and Pulse Technique", 3],
+                    ["EEE 2202(V4)", "Digital Electronics and Pulse Technique Laboratory", 1.5],
+                    ["ENG 1102(V4)", "Communicative English", 1.5],
+                    ["MAT 1205(V4)", "Coordinate Geometry & Vector Analysis", 3],
+                    ["MAT 2304(V4)", "Numerical Methods", 1.5],
+                    ["SSC 1101(V4)", "Bangladesh Studies", 2],
+                ]
+            },
+            {
+                title: "4th Semester",
+                courses: [
+                    ["0000", "Wrong Equivalent Course", 3],
+                    ["BIO 2101(V4)", "Biology for Engineers", 3],
+                    ["CSE 2221(V4)", "Database Management Systems", 3],
+                    ["CSE 2222(V4)", "Database Management Systems Laboratory", 1.5],
+                    ["CSE 2415(V4)", "Algorithms", 3],
+                    ["CSE 2416(V4)", "Algorithms Laboratory", 1.5],
+                    ["CSE 3815(V4)", "Microprocessors & Microcontrollers", 3],
+                    ["CSE 3816(V4)", "Microprocessors and Microcontrollers Laboratory", 1.5],
+                    ["MAT 2207(V4)", "Matrix, Linear Algebra, Differential Equation", 3],
+                ]
+            },
+            {
+                title: "5th Semester",
+                courses: [
+                    ["0000", "Wrong Equivalent Course", 3],
+                    ["CSE 2210(V4)", "Mobile Application Development", 1.5],
+                    ["CSE 3211(V4)", "Information System Design", 3],
+                    ["CSE 3317(V4)", "Artificial Intelligence", 3],
+                    ["CSE 3318(V4)", "Artificial Intelligence Laboratory", 1.5],
+                    ["CSE 3733(V4)", "Operating Systems", 3],
+                    ["CSE 3734(V4)", "Operating Systems Laboratory", 0.75],
+                    ["CSE 3737(V4)", "Computer Organization & Architecture", 3],
+                    ["STA 2107(V4)", "Statistics and Probability", 3],
+                ]
+            },
+            {
+                title: "6th Semester",
+                courses: [
+                    ["CSE 3000(V4)", "Software Development Project", 2],
+                    ["CSE 3233(V4)", "Software Engineering", 3],
+                    ["CSE 3234(V4)", "Software Engineering Laboratory", 0.75],
+                    ["CSE 3567(V4)", "Computer Networks", 3],
+                    ["CSE 3568(V4)", "Computer Networks Laboratory", 1.5],
+                    ["CSE 3637(V4)", "Computer and Cyber Security", 3],
+                    ["CSE 4427(V4)", "Data Communication", 3],
+                    ["MGT 3301(V4)", "Project Management and Entrepreneurship", 3],
+                ]
+            },
+            {
+                title: "7th Semester",
+                courses: [
+                    ["CSE 3409(V4)", "Theory of Computation", 2],
+                    ["CSE 4293(V4)", "Software Testing and Quality Assurance", 3],
+                    ["CSE 4294(V4)", "Software Testing and Assurance Quality Laboratory", 1.5],
+                    ["CSE 4311(V4)", "Machine Learning", 3],
+                    ["CSE 4312(V4)", "Machine Learning Lab", 1.5],
+                    ["CSE 4523(V4)", "Cloud Computing", 3],
+                    ["CSE 4524(V4)", "Cloud Computing Laboratory", 1.5],
+                    ["ENG 4104(V4)", "Technical Writing and Presentation", 1.5],
+                    ["HUM 3101(V4)", "Society, Engineering Ethics and Environmental Protection", 3],
+                ]
+            },
+            {
+                title: "8th Semester",
+                courses: [
+                    ["ACC 1501(V4)", "Financial and Managerial Accounting", 3],
+                    ["CSE 4001", "Internship", 0.75],
+                    ["CSE 4251", "Human Computer Interaction", 3],
+                    ["CSE 4283", "Game Design and Development", 3],
+                    ["CSE 4284", "Game Design and Development Laboratory", 1.5],
+                    ["CSE 4333", "Data Mining", 3],
+                    ["CSE 4345", "Big Data Analytics", 3],
+                    ["CSE 4346", "Big Data Analytics Laboratory", 1.5],
+                    ["CSE 4573", "Green Computing", 3],
+                    ["CSE 4591", "Network Security", 3],
+                    ["CSE 4592", "Network Security Laboratory", 1.5],
+                ]
+            },
+        ];
+
+        function renderCatalog() {
+            const mount = document.getElementById("catalog-mount");
+            if (!mount) return;
+
+            mount.innerHTML = CATALOG_DATA.map((sem, i) => {
+                const totalCredits = sem.courses.reduce((sum, c) => sum + c[2], 0);
+                const creditsLabel = Number.isInteger(totalCredits) ? totalCredits : totalCredits.toFixed(2).replace(/0$/, "");
+
+                const rows = sem.courses.map(([code, name, credit]) => `
+                    <div class="flex items-center justify-between gap-2 px-4 py-2 text-xs">
+                        <span class="font-mono text-neutral-300 shrink-0 w-28">${code}</span>
+                        <span class="text-neutral-500 flex-1 truncate">${name}</span>
+                        <span class="font-mono text-neutral-600 shrink-0 ml-2">${credit}</span>
+                    </div>
+                `).join("");
+
+                return `
+                    <div class="bg-[#050505] border border-neutral-900 rounded-xl overflow-hidden self-start">
+                        <button data-catalog-toggle="${i}" class="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-neutral-900/40 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="text-white text-sm font-semibold tracking-tight">${sem.title}</span>
+                                <span class="text-[11px] font-mono text-neutral-600">${sem.courses.length} courses</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-[11px] font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2 py-0.5 rounded">${creditsLabel} credits</span>
+                                <svg data-catalog-chevron="${i}" class="catalog-chevron w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </button>
+                        <div data-catalog-panel="${i}" class="catalog-panel border-t border-neutral-900 divide-y divide-neutral-900/70">
+                            ${rows}
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            mount.querySelectorAll("[data-catalog-toggle]").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const idx = btn.getAttribute("data-catalog-toggle");
+                    const panel = mount.querySelector(`[data-catalog-panel="${idx}"]`);
+                    const chevron = mount.querySelector(`[data-catalog-chevron="${idx}"]`);
+                    panel.classList.toggle("open");
+                    chevron.classList.toggle("open");
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", renderCatalog);
+    </script>
+</body>
+</html>
