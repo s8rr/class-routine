@@ -24,13 +24,15 @@
     <main class="max-w-3xl mx-auto px-6 py-12 space-y-8">
         <div class="flex justify-between items-baseline">
             <div>
-                <h2 class="text-xl font-bold text-white tracking-tight">Image Index</h2>
+                <h2 class="text-xl font-bold text-white tracking-tight">All Section Routines</h2>
                 <p class="text-xs text-neutral-500 mt-1 font-mono">Directory: <span class="text-neutral-400">/routine_images/</span></p>
             </div>
             <span id="image-count" class="text-xs font-mono text-neutral-500">Loading...</span>
         </div>
         
+        <!-- Image Grid Mount Point -->
         <div id="image-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- Images will be injected here via JavaScript -->
         </div>
     </main>
 
@@ -47,38 +49,48 @@
     </footer>
 
     <script>
-
-        const imageFiles = [
-            "monday_routine.png",
-            "tuesday_routine.png",
-            "wednesday_routine.jpg",
-            "thursday_routine.jpg",
-            "friday_routine.png"
+        // 1. Your exact list of sections
+        const sections = [
+            "1A", "1B", "1C", "1D", "1E", "1F", 
+            "2A", "2B", "2C", "2D", "2E", "2F", 
+            "3A", "3B", "3C", "3D", "3E", "3F", 
+            "4A", "4B", "4C", "4D", "4E", "4F", "4G", 
+            "5A", "5B", "5C1", "5C2", 
+            "6A", "6B", "6C", "6D", "6E", "6F", 
+            "7A", "7B", 
+            "8A", "8B", "8C", "8D", "8E"
         ];
 
+        // 2. Dynamically generate filenames based on the pattern in your screenshot
+        const imageFiles = sections.map(section => `Section_${section}_Routine.png`);
+
+        // 3. Set the directory path
         const imageDirectory = "routine_images/";
 
+        // 4. Render the grid
         const gridElement = document.getElementById('image-grid');
         const countElement = document.getElementById('image-count');
 
         countElement.textContent = `${imageFiles.length} files found`;
 
-        imageFiles.forEach(filename => {
+        imageFiles.forEach((filename, index) => {
+            const sectionName = sections[index];
             const card = document.createElement('div');
-            card.className = "bg-[#050505] border border-neutral-900 rounded-xl overflow-hidden group cursor-pointer hover:border-neutral-700 transition-colors";
+            card.className = "bg-[#050505] border border-neutral-900 rounded-xl overflow-hidden group cursor-pointer hover:border-neutral-700 transition-colors flex flex-col";
             
             card.innerHTML = `
-                <div class="aspect-[4/3] bg-[#0a0a0a] border-b border-neutral-900 relative overflow-hidden">
+                <div class="aspect-[4/3] bg-[#0a0a0a] border-b border-neutral-900 relative overflow-hidden flex-1">
                     <img 
                         src="${imageDirectory}${filename}" 
-                        alt="${filename}" 
+                        alt="Routine for Section ${sectionName}" 
                         class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
                         loading="lazy"
+                        onerror="this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-full text-xs text-neutral-600 font-mono\\'>Image Missing</div>'"
                     >
                 </div>
-                <div class="p-3 flex items-center justify-between">
-                    <span class="text-xs font-mono text-neutral-400 truncate pr-2" title="${filename}">${filename}</span>
-                    <a href="${imageDirectory}${filename}" target="_blank" class="text-neutral-600 hover:text-white transition-colors" title="Open original">
+                <div class="p-3 flex items-center justify-between bg-[#050505]">
+                    <span class="text-sm font-mono text-white font-medium">Section ${sectionName}</span>
+                    <a href="${imageDirectory}${filename}" target="_blank" class="text-neutral-600 hover:text-white transition-colors bg-[#111] p-1.5 rounded border border-neutral-800" title="Open original">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
                 </div>
