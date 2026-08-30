@@ -221,6 +221,7 @@
         const modalImg = document.getElementById('modal-image');
         const modalTitle = document.getElementById('modal-title');
         const modalDownload = document.getElementById('modal-download-btn');
+        const floatingNav = document.getElementById('floating-nav'); // Added this line
 
         function openModal(src, sectionName) {
             modalImg.src = src;
@@ -229,6 +230,10 @@
             modalDownload.download = `Section_${sectionName}_Routine.png`;
             
             modal.classList.remove('hidden');
+            
+            // Hide and disable the floating navigation
+            floatingNav.classList.add('opacity-0', 'pointer-events-none');
+
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
                 document.body.style.overflow = 'hidden';
@@ -237,6 +242,10 @@
 
         function closeModal() {
             modal.classList.add('opacity-0');
+            
+            // Bring the floating navigation back
+            floatingNav.classList.remove('opacity-0', 'pointer-events-none');
+
             setTimeout(() => {
                 modal.classList.add('hidden');
                 modalImg.src = "";
