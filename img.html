@@ -149,17 +149,17 @@
             mainContentElement.appendChild(semesterSection);
 
             const gridElement = document.getElementById(`grid-${semId}`);
-            // Populate Cards (Restored your previous card structure)
+            // Populate Cards
             sections.forEach(sectionName => {
                 const filename = `Section_${sectionName}_Routine.png`;
                 const secId = `sec-${sectionName}`;
                 
                 const card = document.createElement('div');
                 card.id = secId;
-                card.className = "bg-[#050505] border border-neutral-900 rounded-xl overflow-hidden group hover:border-neutral-700 transition-colors flex flex-col pt-16 -mt-16";
+                // REMOVED pt-16 -mt-16. ADDED scroll-mt-24 for the sticky nav offset.
+                card.className = "bg-[#050505] border border-neutral-900 rounded-xl overflow-hidden group hover:border-neutral-700 transition-colors flex flex-col scroll-mt-24";
                 
                 card.innerHTML = `
-                    <!-- REMOVED aspect-[4/3] and flex-1 -->
                     <div class="bg-[#0a0a0a] border-b border-neutral-900 relative overflow-hidden cursor-pointer">
                         <img 
                             src="${imageDirectory}${filename}" 
