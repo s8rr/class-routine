@@ -58,18 +58,18 @@
     </footer>
 
     <!-- Floating Bottom Navigation -->
-    <div id="floating-nav" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-md bg-[#050505]/80 backdrop-blur-md border border-neutral-800 p-1.5 rounded-2xl flex gap-1.5 shadow-2xl transition-opacity duration-300">
-        <div class="relative flex-1">
-            <select id="jump-semester" class="w-full bg-[#111] border border-neutral-800 hover:border-neutral-700 rounded-xl pl-3 pr-8 py-3 text-xs text-white focus:outline-none focus:border-neutral-500 transition-colors appearance-none font-mono cursor-pointer">
-                <option value="">Jump to Semester...</option>
+    <div id="floating-nav" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-md bg-[#050505]/80 backdrop-blur-md border border-neutral-800 p-1.5 rounded-2xl flex gap-1.5 shadow-2xl transition-opacity duration-300 select-none">
+        <div class="relative flex-1 select-none">
+            <select id="jump-semester" class="w-full bg-[#111] border border-neutral-800 hover:border-neutral-700 rounded-xl pl-3 pr-8 py-3 text-xs text-white focus:outline-none focus:ring-0 focus:border-neutral-500 transition-colors appearance-none font-mono cursor-pointer select-none outline-none [-webkit-tap-highlight-color:transparent]">
+                <option value="" disabled selected class="bg-[#111] text-neutral-400">Jump to Semester...</option>
             </select>
             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-neutral-500">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
         </div>
-        <div class="relative flex-1">
-            <select id="jump-section" class="w-full bg-[#111] border border-neutral-800 hover:border-neutral-700 rounded-xl pl-3 pr-8 py-3 text-xs text-white focus:outline-none focus:border-neutral-500 transition-colors appearance-none font-mono cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                <option value="">Then Section...</option>
+        <div class="relative flex-1 select-none">
+            <select id="jump-section" class="w-full bg-[#111] border border-neutral-800 hover:border-neutral-700 rounded-xl pl-3 pr-8 py-3 text-xs text-white focus:outline-none focus:ring-0 focus:border-neutral-500 transition-colors appearance-none font-mono cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed select-none outline-none [-webkit-tap-highlight-color:transparent]" disabled>
+                <option value="" disabled selected class="bg-[#111] text-neutral-400">Then Section...</option>
             </select>
             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-neutral-500">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
