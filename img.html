@@ -8,11 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #333; }
     </style>
 </head>
-<body class="bg-[#000000] text-[#888888] antialiased selection:bg-blue-500/30">
+<body class="bg-[#000000] text-[#888888] antialiased selection:bg-blue-500/30 pb-24">
 
-    <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50 mt-2">
+    <!-- Top Navigation -->
+    <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-40 mt-2">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></div>
@@ -24,6 +30,7 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-4 sm:gap-0">
             <div>
@@ -33,17 +40,16 @@
             <span id="image-count" class="text-xs font-mono text-neutral-500 bg-[#050505] border border-neutral-900 px-3 py-1 rounded-full">Loading...</span>
         </div>
         
-        <!-- Main Content Mount Point -->
-        <div id="main-content" class="space-y-10">
-            <!-- Semesters and Images will be injected here via JavaScript -->
+        <!-- Image Grid Mount Point -->
+        <div id="main-content" class="space-y-12">
+            <!-- Content injected via JS -->
         </div>
     </main>
 
-    <footer class="border-t border-neutral-900 bg-[#000000] mt-24">
+    <footer class="border-t border-neutral-900 bg-[#000000] mt-12 mb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
             <div class="space-y-1 text-center sm:text-left">
                 <span class="text-white font-medium font-mono">Made by </span> <a href="https://sabbir.cc" class="hover:text-white transition-colors">sabbir</a>
-                <p class="text-[11px] text-neutral-600">Code <a href="https://github.com/s8rr/class-routine" class="hover:text-neutral-400 transition-colors">repository</a></p> 
             </div>
             <div class="text-neutral-500 font-mono">
                 System status: <span class="text-green-500">Indexed & Categorized</span>
@@ -51,8 +57,50 @@
         </div>
     </footer>
 
+    <!-- Floating Bottom Navigation -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[95%] max-w-md bg-[#050505]/80 backdrop-blur-md border border-neutral-800 p-1.5 rounded-2xl flex gap-1.5 shadow-2xl">
+        <div class="relative flex-1">
+            <select id="jump-semester" class="w-full bg-[#111] border border-neutral-800 hover:border-neutral-700 rounded-xl pl-3 pr-8 py-3 text-xs text-white focus:outline-none focus:border-neutral-500 transition-colors appearance-none font-mono cursor-pointer">
+                <option value="">Jump to Semester...</option>
+                <!-- Injected via JS -->
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-neutral-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+        </div>
+        <div class="relative flex-1">
+            <select id="jump-section" class="w-full bg-[#111] border border-neutral-800 hover:border-neutral-700 rounded-xl pl-3 pr-8 py-3 text-xs text-white focus:outline-none focus:border-neutral-500 transition-colors appearance-none font-mono cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <option value="">Then Section...</option>
+                <!-- Injected via JS -->
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-neutral-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal / Popup -->
+    <div id="image-modal" class="fixed inset-0 z-50 bg-[#000000]/95 backdrop-blur-sm hidden flex-col items-center justify-center p-4 sm:p-8 opacity-0 transition-opacity duration-300">
+        
+        <!-- Modal Top Bar -->
+        <div class="absolute top-4 right-4 flex gap-3">
+            <!-- Download Button -->
+            <a id="modal-download-btn" href="#" download class="bg-[#111] border border-neutral-800 text-neutral-400 hover:text-white p-2.5 rounded-xl hover:bg-neutral-900 transition-colors" title="Download Image">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            </a>
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="bg-[#111] border border-neutral-800 text-neutral-400 hover:text-white p-2.5 rounded-xl hover:bg-neutral-900 transition-colors" title="Close">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div class="relative max-w-5xl w-full flex flex-col items-center mt-10">
+            <span id="modal-title" class="text-white font-mono font-medium text-lg mb-4 bg-[#111] px-4 py-1.5 border border-neutral-800 rounded-full"></span>
+            <img id="modal-image" src="" alt="Full Routine" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl border border-neutral-800">
+        </div>
+    </div>
+
     <script>
-        // 1. Data Structure with Categorization
         const routineData = {
             "1st Semester": ["1A", "1B", "1C", "1D", "1E", "1F"],
             "2nd Semester": ["2A", "2B", "2C", "2D", "2E", "2F"],
@@ -64,76 +112,150 @@
             "8th Semester": ["8A", "8B", "8C", "8D", "8E"]
         };
 
-        // 2. Set the directory path
         const imageDirectory = "routine_images/";
-
-        // 3. Render the dynamic content
         const mainContentElement = document.getElementById('main-content');
-        const countElement = document.getElementById('image-count');
-
+        const jumpSemesterSelect = document.getElementById('jump-semester');
+        const jumpSectionSelect = document.getElementById('jump-section');
+        
         let totalFiles = 0;
 
-        // Iterate through semesters
+        // 1. Generate Content & Populate Semester Dropdown
         for (const [semester, sections] of Object.entries(routineData)) {
             totalFiles += sections.length;
+            const semId = `sem-${semester.replace(/\s+/g, '-').toLowerCase()}`;
 
-            // Create Semester Section Container
+            // Add to dropdown
+            const option = document.createElement('option');
+            option.value = semId;
+            option.textContent = semester;
+            jumpSemesterSelect.appendChild(option);
+
+            // Create Semester Section
             const semesterSection = document.createElement('section');
-            semesterSection.className = "space-y-6";
+            semesterSection.id = semId; // Assign ID for jumping
+            semesterSection.className = "space-y-6 pt-16 -mt-16"; // Offset for sticky top nav
 
-            // Semester Title and Line
             semesterSection.innerHTML = `
                 <div class="flex items-center gap-4">
                     <h3 class="text-lg font-semibold text-white tracking-tight flex-shrink-0">${semester}</h3>
                     <div class="h-px bg-neutral-900 flex-grow"></div>
-                    <span class="text-xs font-mono text-neutral-600 bg-[#050505] px-2.5 py-0.5 rounded border border-neutral-900">${sections.length} Sections</span>
+                    <span class="text-xs font-mono text-neutral-600 bg-[#050505] px-2.5 py-0.5 rounded border border-neutral-900">${sections.length} Secs</span>
                 </div>
-                <!-- Image Grid for this semester -->
-                <div id="grid-${semester.replace(/\s+/g, '-').toLowerCase()}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                </div>
+                <div id="grid-${semId}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
             `;
             mainContentElement.appendChild(semesterSection);
 
-            // Get the specific grid for this semester
-            const gridElement = document.getElementById(`grid-${semester.replace(/\s+/g, '-').toLowerCase()}`);
+            const gridElement = document.getElementById(`grid-${semId}`);
 
-            // Add cards for each section in this semester
+            // Add Cards
             sections.forEach(sectionName => {
                 const filename = `Section_${sectionName}_Routine.png`;
+                const secId = `sec-${sectionName}`;
+                
                 const card = document.createElement('div');
-                card.className = "bg-[#050505] border border-neutral-900 rounded-xl overflow-hidden group hover:border-neutral-700 transition-colors flex flex-col";
+                card.id = secId; // Assign ID for jumping
+                card.className = "bg-[#050505] border border-neutral-900 rounded-xl overflow-hidden group hover:border-neutral-700 transition-all cursor-pointer flex flex-col pt-16 -mt-16"; // Scroll offset included
+                
+                // Clicking the card opens the modal
+                card.onclick = () => openModal(imageDirectory + filename, sectionName);
                 
                 card.innerHTML = `
-                    <div class="aspect-[4/3] bg-[#0a0a0a] border-b border-neutral-900 relative overflow-hidden flex-1 cursor-pointer">
+                    <div class="aspect-[4/3] bg-[#0a0a0a] border-b border-neutral-900 relative overflow-hidden flex-1">
                         <img 
                             src="${imageDirectory}${filename}" 
                             alt="Routine for Section ${sectionName}" 
-                            class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-all duration-300"
+                            class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-300"
                             loading="lazy"
-                            onerror="this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-full text-xs text-neutral-600 font-mono\\'>Image Missing</div>'; this.parentElement.classList.remove('cursor-pointer');"
-                            onclick="window.open('${imageDirectory}${filename}', '_blank')"
+                            onerror="this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-full text-xs text-neutral-600 font-mono\\'>Image Missing</div>'"
                         >
-                    </div>
-                    <div class="p-3 flex items-center justify-between bg-[#050505]">
-                        <span class="text-sm font-mono text-white font-medium">Section ${sectionName}</span>
-                        
-                        <div class="flex items-center gap-1.5">
-                            <!-- New Download Button -->
-                            <a href="${imageDirectory}${filename}" download="Section_${sectionName}_Routine.png" class="text-neutral-600 hover:text-white transition-colors bg-[#111] p-2 rounded-lg border border-neutral-800" title="Download Image">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            </a>
-                            <!-- Open in new tab button -->
-                            <a href="${imageDirectory}${filename}" target="_blank" class="text-neutral-600 hover:text-white transition-colors bg-[#111] p-2 rounded-lg border border-neutral-800" title="Open in New Tab">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                            </a>
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+                            <span class="bg-[#111]/80 backdrop-blur border border-neutral-700 text-white text-xs font-mono px-3 py-1.5 rounded-lg flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                View Full
+                            </span>
                         </div>
+                    </div>
+                    <div class="p-3 bg-[#050505] text-center border-t border-neutral-900">
+                        <span class="text-sm font-mono text-neutral-300 font-medium group-hover:text-white transition-colors">Section ${sectionName}</span>
                     </div>
                 `;
                 gridElement.appendChild(card);
             });
         }
 
-        countElement.textContent = `${totalFiles} sections total`;
+        document.getElementById('image-count').textContent = `${totalFiles} sections total`;
+
+        // 2. Floating Navigation Logic
+        jumpSemesterSelect.addEventListener('change', (e) => {
+            const semId = e.target.value;
+            if (!semId) {
+                jumpSectionSelect.disabled = true;
+                jumpSectionSelect.innerHTML = '<option value="">Then Section...</option>';
+                return;
+            }
+
+            // Scroll to semester
+            document.getElementById(semId).scrollIntoView({ behavior: 'smooth' });
+
+            // Populate Section Dropdown
+            const semesterName = e.target.options[e.target.selectedIndex].text;
+            const sections = routineData[semesterName];
+            
+            jumpSectionSelect.innerHTML = '<option value="">Then Section...</option>';
+            sections.forEach(sec => {
+                const opt = document.createElement('option');
+                opt.value = `sec-${sec}`;
+                opt.textContent = `Section ${sec}`;
+                jumpSectionSelect.appendChild(opt);
+            });
+            jumpSectionSelect.disabled = false;
+        });
+
+        jumpSectionSelect.addEventListener('change', (e) => {
+            const secId = e.target.value;
+            if (secId) {
+                document.getElementById(secId).scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // 3. Modal Logic
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDownload = document.getElementById('modal-download-btn');
+
+        function openModal(src, sectionName) {
+            modalImg.src = src;
+            modalTitle.textContent = `Section ${sectionName}`;
+            modalDownload.href = src;
+            modalDownload.download = `Section_${sectionName}_Routine.png`;
+            
+            // Show modal with transition
+            modal.classList.remove('hidden');
+            // Slight delay to allow display:block to apply before opacity transitions
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalImg.src = ""; // Clear image
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }, 300); // Matches Tailwind's duration-300
+        }
+
+        // Close modal on Escape key or clicking outside the image
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
     </script>
 </body>
 </html>
