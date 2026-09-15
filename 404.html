@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+<script>
+  const target = window.location.pathname.toLowerCase();
+  if (target !== window.location.pathname) {
+    window.location.replace(target);
+  }
+</script>
+</body>
+</html>
