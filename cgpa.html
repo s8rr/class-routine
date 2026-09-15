@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUC CGPA Calculator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root { color-scheme: dark; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+    select.select-arrow {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+        background-repeat: no-repeat;
+        background-position: right 0.6rem center;
+        background-size: 12px;
+        padding-right: 2rem;
+    }
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] { -moz-appearance: textfield; }
+
+    .course-row { animation: rowIn 0.18s ease; }
+    @keyframes rowIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Course list grows naturally; only the page scrolls if content doesn't fit */
+    #courses-container {
+        overflow-y: visible;
+    }
+</style>
+</head>
+<body class="bg-[#0a0a0a] text-[#888888] antialiased selection:bg-blue-500/30 min-h-screen flex flex-col">
+
+<nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50 shrink-0">
+    <div class="max-w-6xl mx-auto px-4 h-11 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></div>
+            <span class="text-white font-medium tracking-tight text-xs font-mono">PUC CGPA Calculator</span>
+        </div>
+        <div class="text-[10px] font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2 py-0.5 rounded">
+            UGC Scale
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-3xl mx-auto px-4 py-3 w-full flex-1 flex flex-col gap-3 min-h-0">
+
+    <!-- Result (moved to top) -->
+    <div id="result-box" class="bg-[#050505] border border-blue-900/40 rounded-xl px-4 py-3 flex items-center justify-between shrink-0">
+        <div>
+            <div class="text-xs text-neutral-500">Your CGPA</div>
+            <div id="summary-details" class="text-[11px] text-neutral-600 font-mono mt-0.5">Add courses & calculate</div>
+        </div>
+        <div id="cgpa-value" class="text-white text-4xl font-bold font-mono tracking-tight">0.00</div>
+    </div>
+
+    <!-- Semester quick-add -->
+    <div class="flex items-center gap-2 shrink-0">
+        <label for="semester-select" class="text-xs text-neutral-400 shrink-0">Add semester</label>
+        <select id="semester-select" class="select-arrow flex-1 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Add courses from semester">
+            <option value="">Select a semester…</option>
+        </select>
+    </div>
+
+    <!-- Courses -->
+    <div class="flex flex-col">
+        <div class="hidden md:flex items-center gap-3 px-4 pb-1 text-[11px] text-neutral-600 shrink-0">
+            <span class="flex-1">Course</span>
+            <span class="w-24 text-center">Credit</span>
+            <span class="w-32 text-center">Grade</span>
+            <span class="w-20"></span>
+        </div>
+        <div id="courses-container" class="bg-[#050505] border border-neutral-900 rounded-xl divide-y divide-neutral-900/70">
+            <!-- rows injected here -->
+        </div>
+    </div>
+
+    <div id="error-message" class="hidden text-xs text-red-400 bg-red-500/5 border border-red-900/40 rounded-md px-3 py-1.5 shrink-0"></div>
+
+    <div class="flex flex-wrap gap-2 shrink-0">
+        <button type="button" onclick="addBlankRow()" class="text-xs font-medium bg-[#111] hover:bg-[#181818] border border-neutral-800 text-neutral-200 px-3 py-1.5 rounded-md transition-colors">+ Add course</button>
+        <button type="button" onclick="resetAll()" class="text-xs font-medium bg-transparent hover:bg-red-500/10 border border-red-900/50 text-red-400 px-3 py-1.5 rounded-md transition-colors">Reset all</button>
+        <button type="button" onclick="calculateCGPA()" class="ml-auto text-xs font-medium bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-md transition-colors shadow-sm shadow-blue-500/20">Calculate CGPA</button>
+    </div>
+
+</main>
+
+<footer class="border-t border-neutral-900 bg-[#000000] shrink-0">
+    <div class="max-w-6xl mx-auto px-4 py-2 flex flex-col sm:flex-row justify-between items-center gap-1 text-[10px]">
+        <a href="https://github.com/s8rr/class-routine" target="_blank" rel="noopener noreferrer" class="text-neutral-600 hover:text-neutral-400">Source on GitHub</a>
+        <div class="text-neutral-500 font-mono">Made by <a href="https://sabbir.cc" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300">Sabbir</a></div>
+    </div>
+</footer>
+
+<script>
+    const CATALOG_DATA = [
+        {
+            title: "1st Semester",
+            courses: [
+                ["BAN 1101(V4)", "Functional Bengali Language", 2],
+                ["CSE 1111(V4)", "Computer Fundamentals and Ethics", 1.5],
+                ["CSE 1113(V4)", "Programming Fundamentals", 3],
+                ["CSE 1114(V4)", "Programming Fundamentals Laboratory", 1.5],
+                ["EEE 1101(V4)", "Introduction to Electrical Engineering", 3],
+                ["EEE 1102(V4)", "Introduction to Electrical Engineering Laboratory", 1.5],
+                ["ENG 1101(V4)", "General English", 3],
+                ["MAT 1203(V4)", "Differential and Integral Calculus", 3],
+                ["ME 1104(V4)", "Mechanical Engineering Drawing", 0.75],
+            ]
+        },
+        {
+            title: "2nd Semester",
+            courses: [
+                ["CSE 1110(V4)", "Competitive Programming Laboratory", 0.75],
+                ["CSE 1411(V4)", "Discrete Mathematics and Number Theory", 3],
+                ["CSE 1413(V4)", "Data Structures", 3],
+                ["CSE 1414(V4)", "Data Structures Laboratory", 1.5],
+                ["ECO 1101(V4)", "Engineering Economics", 3],
+                ["EEE 1201(V4)", "Electronics Devices and Circuits", 3],
+                ["EEE 1202(V4)", "Electronics Device and Circuits Laboratory", 1.5],
+                ["PHY 1103(V4)", "Introduction to Classical & Modern Physics", 3],
+                ["PHY 1104(V4)", "Physics Laboratory", 0.75],
+            ]
+        },
+        {
+            title: "3rd Semester",
+            courses: [
+                ["CSE 1115(V4)", "Object Oriented Programming", 3],
+                ["CSE 1116(V4)", "Object Oriented Programming Laboratory", 1.5],
+                ["CSE 3210(V4)", "Internet Programming", 1.5],
+                ["EEE 2201(V4)", "Digital Electronics and Pulse Technique", 3],
+                ["EEE 2202(V4)", "Digital Electronics and Pulse Technique Laboratory", 1.5],
+                ["ENG 1102(V4)", "Communicative English", 1.5],
+                ["MAT 1205(V4)", "Coordinate Geometry & Vector Analysis", 3],
+                ["MAT 2304(V4)", "Numerical Methods", 1.5],
+                ["SSC 1101(V4)", "Bangladesh Studies", 2],
+            ]
+        },
+        {
+            title: "4th Semester",
+            courses: [
+                ["0000", "Wrong Equivalent Course", 3],
+                ["BIO 2101(V4)", "Biology for Engineers", 3],
+                ["CSE 2221(V4)", "Database Management Systems", 3],
+                ["CSE 2222(V4)", "Database Management Systems Laboratory", 1.5],
+                ["CSE 2415(V4)", "Algorithms", 3],
+                ["CSE 2416(V4)", "Algorithms Laboratory", 1.5],
+                ["CSE 3815(V4)", "Microprocessors & Microcontrollers", 3],
+                ["CSE 3816(V4)", "Microprocessors and Microcontrollers Laboratory", 1.5],
+                ["MAT 2207(V4)", "Matrix, Linear Algebra, Differential Equation", 3],
+            ]
+        },
+        {
+            title: "5th Semester",
+            courses: [
+                ["0000", "Wrong Equivalent Course", 3],
+                ["CSE 2210(V4)", "Mobile Application Development", 1.5],
+                ["CSE 3211(V4)", "Information System Design", 3],
+                ["CSE 3317(V4)", "Artificial Intelligence", 3],
+                ["CSE 3318(V4)", "Artificial Intelligence Laboratory", 1.5],
+                ["CSE 3733(V4)", "Operating Systems", 3],
+                ["CSE 3734(V4)", "Operating Systems Laboratory", 0.75],
+                ["CSE 3737(V4)", "Computer Organization & Architecture", 3],
+                ["STA 2107(V4)", "Statistics and Probability", 3],
+            ]
+        },
+        {
+            title: "6th Semester",
+            courses: [
+                ["CSE 3000(V4)", "Software Development Project", 2],
+                ["CSE 3233(V4)", "Software Engineering", 3],
+                ["CSE 3234(V4)", "Software Engineering Laboratory", 0.75],
+                ["CSE 3567(V4)", "Computer Networks", 3],
+                ["CSE 3568(V4)", "Computer Networks Laboratory", 1.5],
+                ["CSE 3637(V4)", "Computer and Cyber Security", 3],
+                ["CSE 4427(V4)", "Data Communication", 3],
+                ["MGT 3301(V4)", "Project Management and Entrepreneurship", 3],
+            ]
+        },
+        {
+            title: "7th Semester",
+            courses: [
+                ["CSE 3409(V4)", "Theory of Computation", 2],
+                ["CSE 4293(V4)", "Software Testing and Quality Assurance", 3],
+                ["CSE 4294(V4)", "Software Testing and Assurance Quality Laboratory", 1.5],
+                ["CSE 4311(V4)", "Machine Learning", 3],
+                ["CSE 4312(V4)", "Machine Learning Lab", 1.5],
+                ["CSE 4523(V4)", "Cloud Computing", 3],
+                ["CSE 4524(V4)", "Cloud Computing Laboratory", 1.5],
+                ["ENG 4104(V4)", "Technical Writing and Presentation", 1.5],
+                ["HUM 3101(V4)", "Society, Engineering Ethics and Environmental Protection", 3],
+            ]
+        },
+        {
+            title: "8th Semester",
+            courses: [
+                ["ACC 1501(V4)", "Financial and Managerial Accounting", 3],
+                ["CSE 4001", "Internship", 0.75],
+                ["CSE 4251", "Human Computer Interaction", 3],
+                ["CSE 4283", "Game Design and Development", 3],
+                ["CSE 4284", "Game Design and Development Laboratory", 1.5],
+                ["CSE 4333", "Data Mining", 3],
+                ["CSE 4345", "Big Data Analytics", 3],
+                ["CSE 4346", "Big Data Analytics Laboratory", 1.5],
+                ["CSE 4573", "Green Computing", 3],
+                ["CSE 4591", "Network Security", 3],
+                ["CSE 4592", "Network Security Laboratory", 1.5],
+            ]
+        },
+    ];
+
+    const GRADES = [
+        ["4.00", "A+"], ["3.75", "A"], ["3.50", "A-"], ["3.25", "B+"], ["3.00", "B"],
+        ["2.75", "B-"], ["2.50", "C+"], ["2.25", "C"], ["2.00", "D"], ["0.00", "F"]
+    ];
+
+    let rowId = 0;
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.innerText = str;
+        return div.innerHTML;
+    }
+
+    function courseOptionsHTML(selSem, selCourse) {
+        let html = `<option value="">Select course…</option>`;
+        CATALOG_DATA.forEach((sem, si) => {
+            html += `<optgroup label="${sem.title}">`;
+            sem.courses.forEach((c, ci) => {
+                const isSel = (selSem === si && selCourse === ci) ? 'selected' : '';
+                html += `<option value="${si}-${ci}" ${isSel}>${c[0]} — ${c[1]}</option>`;
+            });
+            html += `</optgroup>`;
+        });
+        html += `<option value="custom">+ Custom / other course</option>`;
+        return html;
+    }
+
+    function gradeOptionsHTML() {
+        let html = `<option value="">Grade…</option>`;
+        GRADES.forEach(([val, label]) => {
+            html += `<option value="${val}">${label} (${val})</option>`;
+        });
+        return html;
+    }
+
+    function populateSemesterSelect() {
+        const sel = document.getElementById('semester-select');
+        CATALOG_DATA.forEach((sem, si) => {
+            const opt = document.createElement('option');
+            opt.value = si;
+            opt.textContent = sem.title;
+            sel.appendChild(opt);
+        });
+    }
+
+    function rowHTML(semIdx, courseIdx) {
+        const id = ++rowId;
+        const preset = (semIdx !== null && semIdx !== undefined) ? CATALOG_DATA[semIdx].courses[courseIdx] : null;
+        const credit = preset ? preset[2] : '';
+        return `
+        <div class="course-row flex flex-col md:flex-row md:items-center gap-2 px-3 py-2" data-row-id="${id}">
+            <div class="flex-1 min-w-0">
+                <select class="select-arrow course-select w-full bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" onchange="handleCourseChange(this)" aria-label="Course">
+                    ${courseOptionsHTML(semIdx, courseIdx)}
+                </select>
+                <input type="text" placeholder="Course name" class="custom-name hidden mt-1.5 w-full bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500">
+            </div>
+            <input type="number" min="0" step="0.25" placeholder="Credit" value="${credit}" class="course-credit w-full md:w-20 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 text-center focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Credit">
+            <select class="select-arrow course-grade w-full md:w-28 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Grade">
+                ${gradeOptionsHTML()}
+            </select>
+            <button type="button" onclick="deleteRow(this)" class="w-full md:w-16 shrink-0 text-[11px] font-medium text-red-400 hover:text-white hover:bg-red-500/80 border border-red-900/50 rounded-md py-1.5 transition-colors">Remove</button>
+        </div>`;
+    }
+
+    function handleCourseChange(selectEl) {
+        const row = selectEl.closest('.course-row');
+        const customInput = row.querySelector('.custom-name');
+        const creditInput = row.querySelector('.course-credit');
+        const val = selectEl.value;
+
+        if (val === 'custom') {
+            customInput.classList.remove('hidden');
+            customInput.focus();
+            return;
+        }
+        customInput.classList.add('hidden');
+
+        if (val === '') return;
+
+        const [si, ci] = val.split('-').map(Number);
+        const course = CATALOG_DATA[si].courses[ci];
+        creditInput.value = course[2];
+    }
+
+    function renderEmptyState() {
+        const container = document.getElementById('courses-container');
+        container.innerHTML = `<div class="px-4 py-6 text-center text-xs text-neutral-600">No courses yet. Pick a semester above, or add one manually.</div>`;
+    }
+
+    function addSemesterCourses(semIdxStr) {
+        if (semIdxStr === '') return;
+        const semIdx = Number(semIdxStr);
+        const container = document.getElementById('courses-container');
+        container.innerHTML = '';
+
+        CATALOG_DATA[semIdx].courses.forEach((course, ci) => {
+            container.insertAdjacentHTML('beforeend', rowHTML(semIdx, ci));
+        });
+        resetResultDisplay();
+        hideError();
+    }
+
+    function addBlankRow() {
+        const container = document.getElementById('courses-container');
+        const emptyState = container.querySelector(':scope > div:only-child:not(.course-row)');
+        if (emptyState) container.innerHTML = '';
+        container.insertAdjacentHTML('beforeend', rowHTML(null, null));
+    }
+
+    function deleteRow(button) {
+        const row = button.closest('.course-row');
+        const container = document.getElementById('courses-container');
+        row.remove();
+        if (container.children.length === 0) renderEmptyState();
+        resetResultDisplay();
+    }
+
+    function resetResultDisplay() {
+        document.getElementById('cgpa-value').textContent = '0.00';
+        document.getElementById('summary-details').textContent = 'Add courses & calculate';
+    }
+
+    function resetAll() {
+        document.getElementById('semester-select').value = '';
+        resetResultDisplay();
+        hideError();
+        renderEmptyState();
+    }
+
+    function showError(msg) {
+        const box = document.getElementById('error-message');
+        box.textContent = msg;
+        box.classList.remove('hidden');
+    }
+
+    function hideError() {
+        document.getElementById('error-message').classList.add('hidden');
+    }
+
+    function calculateCGPA() {
+        hideError();
+        const rows = document.querySelectorAll('#courses-container .course-row');
+
+        if (rows.length === 0) {
+            showError('Add at least one course before calculating.');
+            return;
+        }
+
+        let totalCredits = 0;
+        let totalPoints = 0;
+        let counted = 0;
+        let skipped = 0;
+
+        rows.forEach(row => {
+            const credit = parseFloat(row.querySelector('.course-credit').value);
+            const gradeVal = row.querySelector('.course-grade').value;
+            const gradePoint = parseFloat(gradeVal);
+
+            if (!isNaN(credit) && credit > 0 && !isNaN(gradePoint)) {
+                totalCredits += credit;
+                totalPoints += credit * gradePoint;
+                counted++;
+            } else {
+                skipped++;
+            }
+        });
+
+        if (totalCredits === 0) {
+            showError('None of your rows have both a valid credit and a grade selected yet.');
+            resetResultDisplay();
+            return;
+        }
+
+        const cgpa = totalPoints / totalCredits;
+        document.getElementById('cgpa-value').textContent = cgpa.toFixed(2);
+
+        let summary = `Credits: ${totalCredits.toFixed(2).replace(/0$/, '').replace(/\.$/, '')} · QP: ${totalPoints.toFixed(2)}`;
+        if (skipped > 0) {
+            summary += ` · ${skipped} skipped`;
+        }
+        document.getElementById('summary-details').textContent = summary;
+    }
+
+    document.getElementById('semester-select').addEventListener('change', function () {
+        const val = this.value;
+        addSemesterCourses(val);
+        // Keep showing the chosen semester instead of resetting to the placeholder
+    });
+
+    populateSemesterSelect();
+    renderEmptyState();
+</script>
+
+</body>
+</html>
