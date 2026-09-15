@@ -53,32 +53,32 @@
     </div>
 </nav>
 
-<main class="max-w-3xl mx-auto px-4 py-3 w-full flex-1 flex flex-col gap-3 min-h-0">
+<main class="max-w-3xl mx-auto px-3 py-2 w-full flex-1 flex flex-col gap-2 min-h-0">
 
-    <!-- Result (moved to top) -->
-    <div id="result-box" class="bg-[#050505] border border-blue-900/40 rounded-xl px-4 py-3 flex items-center justify-between shrink-0">
+    <!-- Result (sticky so it's always visible while scrolling) -->
+    <div id="result-box" class="sticky top-11 z-40 bg-[#0a0a0a]/95 backdrop-blur border border-blue-900/40 rounded-xl px-3 py-2 flex items-center justify-between shrink-0 shadow-lg shadow-black/40">
         <div>
-            <div class="text-xs text-neutral-500">Your CGPA</div>
-            <div id="summary-details" class="text-[11px] text-neutral-600 font-mono mt-0.5">Add courses & calculate</div>
+            <div class="text-[10px] text-neutral-500">Your CGPA</div>
+            <div id="summary-details" class="text-[10px] text-neutral-600 font-mono mt-0.5">Add courses & calculate</div>
         </div>
-        <div id="cgpa-value" class="text-white text-4xl font-bold font-mono tracking-tight">0.00</div>
+        <div id="cgpa-value" class="text-white text-2xl font-bold font-mono tracking-tight">0.00</div>
     </div>
 
     <!-- Semester quick-add -->
     <div class="flex items-center gap-2 shrink-0">
         <label for="semester-select" class="text-xs text-neutral-400 shrink-0">Add semester</label>
-        <select id="semester-select" class="select-arrow flex-1 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Add courses from semester">
+        <select id="semester-select" class="select-arrow flex-1 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Add courses from semester">
             <option value="">Select a semester…</option>
         </select>
     </div>
 
     <!-- Courses -->
     <div class="flex flex-col">
-        <div class="hidden md:flex items-center gap-3 px-4 pb-1 text-[11px] text-neutral-600 shrink-0">
+        <div class="hidden md:flex items-center gap-3 px-3 pb-1 text-[11px] text-neutral-600 shrink-0">
             <span class="flex-1">Course</span>
             <span class="w-24 text-center">Credit</span>
             <span class="w-32 text-center">Grade</span>
-            <span class="w-20"></span>
+            <span class="w-9"></span>
         </div>
         <div id="courses-container" class="bg-[#050505] border border-neutral-900 rounded-xl divide-y divide-neutral-900/70">
             <!-- rows injected here -->
@@ -269,18 +269,22 @@
         const preset = (semIdx !== null && semIdx !== undefined) ? CATALOG_DATA[semIdx].courses[courseIdx] : null;
         const credit = preset ? preset[2] : '';
         return `
-        <div class="course-row flex flex-col md:flex-row md:items-center gap-2 px-3 py-2" data-row-id="${id}">
-            <div class="flex-1 min-w-0">
-                <select class="select-arrow course-select w-full bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" onchange="handleCourseChange(this)" aria-label="Course">
+        <div class="course-row px-3 py-2" data-row-id="${id}">
+            <div class="flex items-center gap-2">
+                <select class="select-arrow course-select flex-1 min-w-0 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" onchange="handleCourseChange(this)" aria-label="Course">
                     ${courseOptionsHTML(semIdx, courseIdx)}
                 </select>
-                <input type="text" placeholder="Course name" class="custom-name hidden mt-1.5 w-full bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500">
+                <button type="button" onclick="deleteRow(this)" aria-label="Remove course" class="shrink-0 w-9 h-9 flex items-center justify-center text-red-400 hover:text-white hover:bg-red-500/80 border border-red-900/50 rounded-md transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-.867 12.142A2 2 0 0 1 16.138 20H7.862a2 2 0 0 1-1.995-1.858L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                </button>
             </div>
-            <input type="number" min="0" step="0.25" placeholder="Credit" value="${credit}" class="course-credit w-full md:w-20 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 text-center focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Credit">
-            <select class="select-arrow course-grade w-full md:w-28 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Grade">
-                ${gradeOptionsHTML()}
-            </select>
-            <button type="button" onclick="deleteRow(this)" class="w-full md:w-16 shrink-0 text-[11px] font-medium text-red-400 hover:text-white hover:bg-red-500/80 border border-red-900/50 rounded-md py-1.5 transition-colors">Remove</button>
+            <input type="text" placeholder="Course name" class="custom-name hidden mt-1.5 w-full bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500">
+            <div class="flex items-center gap-2 mt-1.5">
+                <input type="number" min="0" step="0.25" placeholder="Credit" value="${credit}" class="course-credit w-1/2 md:w-20 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 text-center focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Credit">
+                <select class="select-arrow course-grade w-1/2 md:w-28 bg-[#111] border border-neutral-800 text-neutral-200 text-xs rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500/60 focus:border-blue-500" aria-label="Grade">
+                    ${gradeOptionsHTML()}
+                </select>
+            </div>
         </div>`;
     }
 
