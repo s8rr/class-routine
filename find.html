@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Finder | CSE Routine</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+        }
+      }
+    }
+  };
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); }
+</style>
+</head>
+<body class="bg-black text-[#888888] antialiased selection:bg-blue-500/30 min-h-screen">
+
+  <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50">
+    <div class="max-w-2xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></div>
+        <span class="text-white font-medium tracking-tight text-sm font-mono">Teacher Finder</span>
+      </div>
+      <div class="text-xs font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2.5 py-1 rounded">
+        CSE · Spring 2026
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-2xl mx-auto px-6 py-10 space-y-8">
+
+    <div class="space-y-1">
+      <h1 class="text-white text-lg font-semibold tracking-tight">Find a teacher</h1>
+      <p class="text-sm text-neutral-500">Pick a day and a time to see where each teacher is. If they have no class at that moment, they're in the Teachers Room (Office).</p>
+    </div>
+
+    <div class="bg-[#050505] border border-neutral-900 rounded-xl p-5 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="space-y-1.5">
+          <label for="day-select" class="text-xs font-mono text-neutral-500">Day</label>
+          <div class="relative">
+            <select id="day-select" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md pl-3 pr-8 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 appearance-none cursor-pointer font-mono">
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-neutral-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="time-input" class="text-xs font-mono text-neutral-500">Time</label>
+          <div class="flex gap-2">
+            <input id="time-input" type="time" value="11:00"
+              class="flex-1 min-w-0 bg-[#0a0a0a] border border-neutral-800 rounded-md px-3 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 font-mono [color-scheme:dark]">
+            <button id="now-btn" type="button"
+              class="bg-[#0a0a0a] border border-neutral-800 hover:border-neutral-700 text-neutral-400 hover:text-white text-xs font-mono px-3.5 rounded-md transition-colors">
+              Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-1.5">
+        <label for="teacher-select" class="text-xs font-mono text-neutral-500">Teacher</label>
+        <div class="relative">
+          <select id="teacher-select" class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md pl-3 pr-8 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 appearance-none cursor-pointer font-mono text-ellipsis [color-scheme:dark]">
+            <option value="">All teachers</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-neutral-500">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+        </div>
+      </div>
+
+      <p id="status-line" class="text-xs font-mono text-neutral-600">Loading routine data…</p>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div id="filter-chips" class="flex gap-1.5" role="group" aria-label="Filter teachers by status">
+          <button type="button" data-filter="all" aria-pressed="true"></button>
+          <button type="button" data-filter="class" aria-pressed="false"></button>
+          <button type="button" data-filter="office" aria-pressed="false"></button>
+        </div>
+        <span id="result-summary" class="text-xs font-mono text-neutral-500"></span>
+      </div>
+      <div id="teacher-list" class="space-y-2"></div>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-neutral-900 bg-[#000000] mt-16">
+    <div class="max-w-2xl mx-auto px-6 py-8 text-center text-xs text-neutral-600 font-mono">
+      By: <a href="https://sabbir.cc" class="text-neutral-400 hover:text-white">sabbir</a>
+    </div>
+  </footer>
+
+<script>
+const DATA_URL = "data/routine_data.json";
+const OFFICE_LABEL = "Teachers Room (Office)";
+
+// If one slot lists several teachers (e.g. "A / B"), split on these separators.
+// Commas are deliberately NOT included, since they can appear inside a single name.
+const MULTI_TEACHER_SPLIT = /\s*(?:\/|&|\+|;)\s*/;
+// Slot values that mean "no teacher assigned".
+const PLACEHOLDER_TEACHER = /^(?:-+|—|n\/?a|tba|tbd|none|null)?$/i;
+
+let teachers = [];          // [{ key, name, slotsByDay: { Sunday: [slot, ...] } }]
+let activeFilter = "all";   // "all" | "class" | "office"
+const openTeachers = new Set(); // keeps expanded schedules open across re-renders
+
+const statusLine = document.getElementById("status-line");
+const daySelect = document.getElementById("day-select");
+const timeInput = document.getElementById("time-input");
+const nowBtn = document.getElementById("now-btn");
+const teacherSelect = document.getElementById("teacher-select");
+const chipsWrap = document.getElementById("filter-chips");
+const teacherList = document.getElementById("teacher-list");
+const resultSummary = document.getElementById("result-summary");
+
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+/* ---------- helpers ---------- */
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
+
+function parseTimeToMinutes(str) {
+  // "08:30 AM"
+  const m = String(str || "").trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!m) return null;
+  let h = parseInt(m[1], 10);
+  const min = parseInt(m[2], 10);
+  const ap = m[3].toUpperCase();
+  if (ap === "PM" && h !== 12) h += 12;
+  if (ap === "AM" && h === 12) h = 0;
+  return h * 60 + min;
+}
+
+function parseRange(rangeStr) {
+  // "08:30 AM - 10:00 AM"
+  const parts = String(rangeStr || "").split(/\s*[-–—]\s*/);
+  if (parts.length < 2) return { start: null, end: null };
+  return { start: parseTimeToMinutes(parts[0]), end: parseTimeToMinutes(parts[1]) };
+}
+
+function formatMinutes(mins) {
+  let h = Math.floor(mins / 60);
+  const m = mins % 60;
+  const ap = h >= 12 ? "PM" : "AM";
+  h = h % 12;
+  if (h === 0) h = 12;
+  return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")} ${ap}`;
+}
+
+function formatDuration(mins) {
+  if (mins < 60) return `${mins} min`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m ? `${h}h ${m}m` : `${h}h`;
+}
+
+function roomLabel(room) {
+  if (!room) return "Room not listed";
+  return /^\d+$/.test(room) ? `Room ${room}` : room;
+}
+
+function normalizeKey(name) {
+  // Makes "Dr. Rahim" and "Dr Rahim" count as the same teacher.
+  return String(name).toLowerCase().replace(/[.\s]+/g, " ").trim();
+}
+
+function nowHHMM() {
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function setToNow() {
+  const d = new Date();
+  daySelect.value = dayNames[d.getDay()];
+  timeInput.value = nowHHMM();
+}
+
+/* ---------- data ---------- */
+
+function buildTeachers(weekly) {
+  const map = new Map();
+
+  Object.entries(weekly).forEach(([section, sectionRoutine]) => {
+    Object.entries(sectionRoutine || {}).forEach(([day, slots]) => {
+      if (!Array.isArray(slots)) return;
+
+      slots.forEach(slot => {
+        const range = parseRange(slot.time);
+        if (range.start === null || range.end === null) return;
+
+        const room = String(slot.room || "").trim();
+        const subject = String(slot.subject || "").trim();
+
+        String(slot.teacher || "").split(MULTI_TEACHER_SPLIT).forEach(raw => {
+          const name = raw.replace(/\s+/g, " ").trim();
+          if (PLACEHOLDER_TEACHER.test(name)) return;
+
+          const key = normalizeKey(name);
+          if (!map.has(key)) map.set(key, { key, name, slotsByDay: {}, subjects: new Set(), seen: new Map() });
+          const teacher = map.get(key);
+          if (subject) teacher.subjects.add(subject);
+
+          // Same class taught to several sections in the same room/time -> one entry, many sections.
+          const slotKey = [day, range.start, range.end, room, subject].join("|");
+          const existing = teacher.seen.get(slotKey);
+          if (existing) {
+            existing.sections.add(section);
+            return;
+          }
+          const entry = { start: range.start, end: range.end, room, subject, sections: new Set([section]) };
+          teacher.seen.set(slotKey, entry);
+          (teacher.slotsByDay[day] = teacher.slotsByDay[day] || []).push(entry);
+        });
+      });
+    });
+  });
+
+  const list = [...map.values()];
+  list.forEach(t => {
+    delete t.seen;
+    t.subjects = [...t.subjects].sort((a, b) => a.localeCompare(b));
+    Object.values(t.slotsByDay).forEach(arr => arr.sort((a, b) => a.start - b.start || a.end - b.end));
+  });
+  return list.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function populateTeacherSelect() {
+  // Each option reads "Teacher Name (Subject, Subject)"
+  const options = teachers.map(t => {
+    const label = t.subjects.length ? `${t.name} (${t.subjects.join(", ")})` : t.name;
+    return `<option value="${esc(t.key)}">${esc(label)}</option>`;
+  });
+  teacherSelect.innerHTML = `<option value="">All teachers</option>` + options.join("");
+}
+
+async function loadData() {
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const weekly = data.weekly_routine || {};
+    teachers = buildTeachers(weekly);
+    populateTeacherSelect();
+    statusLine.textContent = `Loaded ${Object.keys(weekly).length} sections · ${teachers.length} teachers`;
+    render();
+  } catch (err) {
+    statusLine.textContent = "Couldn't load routine data. Check your connection and refresh. If you opened this file straight from disk, serve it over http instead.";
+    console.error(err);
+  }
+}
+
+/* ---------- status logic ---------- */
+
+function getStatus(teacher, day, q) {
+  const slots = teacher.slotsByDay[day] || [];
+  const current = slots.filter(s => q >= s.start && q < s.end);
+  if (current.length) return { inClass: true, current, slots };
+  // slots are sorted by start time, so the first future one is the next class
+  const next = slots.find(s => s.start > q) || null;
+  return { inClass: false, next, slots };
+}
+
+/* ---------- rendering ---------- */
+
+function slotMeta(slot) {
+  return [slot.subject, [...slot.sections].join(", ")].filter(Boolean).join(" · ");
+}
+
+function cardHTML(teacher, status, day, q) {
+  let badge, locationBlock, hint;
+
+  if (status.inClass) {
+    badge = `<span class="shrink-0 text-[10px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded px-2 py-0.5">In class</span>`;
+    locationBlock = status.current.map(c => `
+      <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg px-3 py-2.5">
+        <div class="text-blue-400 text-sm font-mono">${esc(roomLabel(c.room))}</div>
+        <div class="text-blue-500/70 text-[11px] font-mono mt-0.5">${esc(slotMeta(c))}${slotMeta(c) ? " · " : ""}${formatMinutes(c.start)} – ${formatMinutes(c.end)}</div>
+      </div>`).join("");
+    const endsAt = Math.min(...status.current.map(c => c.end));
+    hint = `Class ends ${formatMinutes(endsAt)} (in ${formatDuration(endsAt - q)})`;
+  } else {
+    badge = `<span class="shrink-0 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded px-2 py-0.5">In office</span>`;
+    locationBlock = `
+      <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3 py-2.5">
+        <div class="text-emerald-400 text-sm font-mono">${OFFICE_LABEL}</div>
+      </div>`;
+    if (status.next) {
+      hint = `Next class ${formatMinutes(status.next.start)} (in ${formatDuration(status.next.start - q)}) · ${roomLabel(status.next.room)}`;
+    } else if (status.slots.length) {
+      hint = `No more classes on ${day}`;
+    } else {
+      hint = `No classes on ${day}`;
+    }
+  }
+
+  const scheduleRows = status.slots.length
+    ? status.slots.map(sl => {
+        const active = q >= sl.start && q < sl.end;
+        return `
+          <div class="flex justify-between gap-4 border-b border-neutral-900 pb-2 ${active ? "text-blue-400" : "text-neutral-500"}">
+            <span class="shrink-0">${formatMinutes(sl.start)} – ${formatMinutes(sl.end)}</span>
+            <span class="text-right break-words min-w-0">${esc(roomLabel(sl.room))}${slotMeta(sl) ? " · " + esc(slotMeta(sl)) : ""}</span>
+          </div>`;
+      }).join("")
+    : `<div class="text-neutral-600">No classes scheduled on ${esc(day)}.</div>`;
+
+  const classCount = status.slots.length;
+  const scheduleTitle = classCount
+    ? `${day} schedule · ${classCount} ${classCount === 1 ? "class" : "classes"}`
+    : `${day} schedule`;
+
+  return `
+    <article class="bg-[#050505] border border-neutral-900 rounded-xl p-4 space-y-3">
+      <div class="flex items-start justify-between gap-3">
+        <h3 class="text-white text-sm font-semibold break-words min-w-0">${esc(teacher.name)}</h3>
+        ${badge}
+      </div>
+      <div class="space-y-2">${locationBlock}</div>
+      <p class="text-[11px] font-mono text-neutral-500">${esc(hint)}</p>
+      <details data-key="${esc(teacher.key)}" ${openTeachers.has(teacher.key) ? "open" : ""}>
+        <summary class="flex items-center justify-between cursor-pointer text-[11px] font-mono text-neutral-500 hover:text-neutral-300 select-none">
+          <span>${esc(scheduleTitle)}</span>
+          <svg class="chev w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="mt-3 space-y-2 text-[11px] font-mono">${scheduleRows}</div>
+      </details>
+    </article>`;
+}
+
+function chipClasses(active) {
+  const base = "text-xs font-mono px-3 py-1.5 rounded-md border transition-colors ";
+  return base + (active
+    ? "bg-neutral-800 border-neutral-700 text-white"
+    : "bg-[#0a0a0a] border-neutral-800 text-neutral-500 hover:text-neutral-300");
+}
+
+function render() {
+  if (!teachers.length) return;
+
+  if (!timeInput.value) {
+    resultSummary.textContent = "Pick a time";
+    teacherList.innerHTML = `<div class="text-sm text-neutral-500 font-mono py-4 text-center">Pick a time to see where teachers are.</div>`;
+    return;
+  }
+
+  const day = daySelect.value;
+  const [hh, mm] = timeInput.value.split(":").map(Number);
+  const q = hh * 60 + mm;
+
+  const selectedKey = teacherSelect.value;
+  const statuses = teachers
+    .filter(t => !selectedKey || t.key === selectedKey)
+    .map(t => ({ teacher: t, status: getStatus(t, day, q) }));
+
+  // The In class / In office filter only makes sense when looking at everyone.
+  chipsWrap.style.display = selectedKey ? "none" : "";
+
+  const inClassCount = statuses.filter(x => x.status.inClass).length;
+  const counts = { all: statuses.length, class: inClassCount, office: statuses.length - inClassCount };
+  const labels = { all: "All", class: "In class", office: "In office" };
+  chipsWrap.querySelectorAll("button").forEach(btn => {
+    const f = btn.dataset.filter;
+    btn.textContent = `${labels[f]} ${counts[f]}`;
+    btn.className = chipClasses(f === activeFilter);
+    btn.setAttribute("aria-pressed", String(f === activeFilter));
+  });
+
+  const visible = statuses.filter(x =>
+    activeFilter === "all" ||
+    (activeFilter === "class" ? x.status.inClass : !x.status.inClass)
+  );
+
+  resultSummary.textContent = `${day} ${formatMinutes(q)}`;
+
+  if (visible.length === 0) {
+    teacherList.innerHTML = `<div class="text-sm text-neutral-500 font-mono py-4 text-center">No teachers match.</div>`;
+    return;
+  }
+  teacherList.innerHTML = visible.map(x => cardHTML(x.teacher, x.status, day, q)).join("");
+}
+
+/* ---------- events ---------- */
+
+daySelect.addEventListener("change", render);
+timeInput.addEventListener("input", render);
+searchInput.addEventListener("input", render);
+nowBtn.addEventListener("click", () => { setToNow(); render(); });
+
+chipsWrap.addEventListener("click", e => {
+  const btn = e.target.closest("button[data-filter]");
+  if (!btn) return;
+  activeFilter = btn.dataset.filter;
+  render();
+});
+
+// `toggle` doesn't bubble, so listen in the capture phase to remember which schedules are open.
+teacherList.addEventListener("toggle", e => {
+  const d = e.target;
+  if (!(d instanceof HTMLDetailsElement) || !d.dataset.key) return;
+  if (d.open) openTeachers.add(d.dataset.key);
+  else openTeachers.delete(d.dataset.key);
+}, true);
+
+setToNow();
+loadData();
+</script>
+</body>
+</html>
