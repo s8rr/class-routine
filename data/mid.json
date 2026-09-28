@@ -9,7 +9,7 @@
   "label": "Mid",
   "enabled": true,
   "default_mode": "class",
-  "class_view_exams": true,
+  "class_view_exams": false,
   "classes_off_during": true,
   "classes_off_after": false,
   "title": "Mid Examination",
