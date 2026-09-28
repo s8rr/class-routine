@@ -175,100 +175,6 @@
     }
   }
 
-  // ---- Class view integration ---------------------------------------------
-  // On exam days the normal "Resolved Day Schedule" shows the selected semester's
-  // exams instead of classes, and the calendar highlights that semester's exam days.
-  // Wraps app.js functions at runtime, so app.js itself is not modified.
-  function examsFor(iso, s) {
-    return cfg.exams
-      .filter((e) => e.date === iso && String(e.semester) === String(s))
-      .sort((a, b) => startMinutes(a.time) - startMinutes(b.time));
-  }
-
-  function installClassViewHooks() {
-    if (typeof renderTimetableStream !== 'function' || typeof renderCalendarGrid !== 'function') return;
-
-    const allDates = cfg.exams.map((e) => e.date).sort();
-    const first = allDates[0];
-    const last = allDates[allDates.length - 1];
-
-    const origTimetable = renderTimetableStream;
-    const origCalendar = renderCalendarGrid;
-
-    function setLabel() {
-      const el = $('selected-date-string');
-      if (el) el.textContent = activeSelectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
-    }
-
-    function showExams(list) {
-      const mount = $('schedule-output-mount');
-      setLabel();
-      mount.innerHTML = list.map((e) => `
-        <div class="bg-[#050505] border border-neutral-900 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-neutral-800 transition-colors">
-          <div class="flex items-start gap-3.5">
-            <div class="mt-1 flex-shrink-0 w-2 h-2 rounded-full bg-amber-500/40 border border-amber-500"></div>
-            <div class="space-y-0.5">
-              <span class="text-xs font-mono text-neutral-500 uppercase">${esc(e.time)}</span>
-              <h3 class="text-base font-bold text-white tracking-tight">${esc(e.name)}</h3>
-            </div>
-          </div>
-          <div class="flex items-center gap-2 text-xs font-mono">
-            <span class="bg-amber-500/5 border border-amber-500/20 px-2.5 py-1 rounded text-amber-400">Exam</span>
-            <span class="bg-[#111] border border-neutral-800 px-2.5 py-1 rounded text-neutral-300">${esc(e.code)}</span>
-          </div>
-        </div>`).join('');
-    }
-
-    function showNoExam(iso) {
-      const mount = $('schedule-output-mount');
-      setLabel();
-      const next = cfg.exams
-        .filter((e) => e.date > iso && String(e.semester) === String(currentSelectedSemester))
-        .sort((a, b) => (a.date + startMinutes(a.time)).localeCompare(b.date + startMinutes(b.time)))[0];
-      let nextLine = '';
-      if (next) {
-        const d = parse(next.date);
-        nextLine = `<div class="pt-1 text-neutral-400">Next exam: ${d.getDate()} ${MONTHS[d.getMonth()]}, ${esc(next.name)}</div>`;
-      }
-      mount.innerHTML = `
-        <div class="bg-[#050505] border border-neutral-900 border-dashed rounded-xl p-8 text-center text-xs font-mono text-neutral-500">
-          No exam for this semester today. Classes are off during the exam period.
-          ${nextLine}
-        </div>`;
-    }
-
-    renderTimetableStream = function () {
-      const iso = isoOf(activeSelectedDate);
-      const list = examsFor(iso, currentSelectedSemester);
-      if (list.length) { showExams(list); return; }
-
-      if (iso >= first && iso <= last) {
-        const dow = activeSelectedDate.getDay();
-        const weekend = dow === 4 || dow === 5;                 // Thu/Fri handled by app.js
-        const exception = routineData && routineData.exceptions && routineData.exceptions[iso]; // holidays etc.
-        if (!weekend && !exception) { showNoExam(iso); return; }
-      }
-      origTimetable();
-    };
-
-    renderCalendarGrid = function () {
-      origCalendar();
-      const y = currentFocusedDate.getFullYear();
-      const m = String(currentFocusedDate.getMonth() + 1).padStart(2, '0');
-      document.querySelectorAll('#calendar-days-grid .calendar-cell-node').forEach((cell) => {
-        if (cell.classList.contains('bg-blue-600')) return;      // selected day keeps its highlight
-        const iso = `${y}-${m}-${String(parseInt(cell.textContent, 10)).padStart(2, '0')}`;
-        if (examsFor(iso, currentSelectedSemester).length) {
-          cell.classList.remove('text-neutral-400', 'text-red-400', 'bg-[#0a0a0a]', 'bg-red-500/5', 'border-red-500/10');
-          cell.classList.add('text-amber-400', 'bg-amber-500/5', 'border-amber-500/10');
-        }
-      });
-    };
-
-    // app.js may already have drawn once before exam.json arrived
-    if (typeof routineData !== 'undefined' && routineData) renderSystemState();
-  }
-
   // ---- Init --------------------------------------------------------------
   async function init() {
     if (!$('exam-view') || !$('class-view')) return;
@@ -290,7 +196,6 @@
     toggle.classList.add('flex');
 
     buildShell();
-    if (cfg.class_view_exams !== false) installClassViewHooks();
     $('mode-class').addEventListener('click', () => setMode('class', true));
     $('mode-exam').addEventListener('click', () => setMode('exam', true));
 
