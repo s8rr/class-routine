@@ -7,7 +7,7 @@
   },
   "id": "mid",
   "label": "Mid",
-  "enabled": false,
+  "enabled": true,
   "default_mode": "class",
   "class_view_exams": true,
   "classes_off_during": true,
