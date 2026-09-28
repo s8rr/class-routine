@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empty Room Finder | CSE Routine</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  #calendar-days-grid > .cal-day:nth-child(7n+5),
+  #calendar-days-grid > .cal-day:nth-child(7n+6) {
+    color: #ef4444;
+  }
+  #calendar-days-grid > .cal-day.is-muted {
+    color: #3f3f46 !important;
+  }
+</style>
+</head>
+<body class="bg-black text-[#888888] antialiased selection:bg-blue-500/30 min-h-screen">
+
+  <nav class="bg-[#000000] border-b border-neutral-900 sticky top-0 z-50">
+    <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></div>
+        <span class="text-white font-medium tracking-tight text-sm font-mono">Empty Room Finder</span>
+      </div>
+      <div class="text-xs font-mono bg-[#111] border border-neutral-800 text-neutral-400 px-2.5 py-1 rounded">
+        CSE · Spring 2026
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-6 py-10 space-y-8">
+
+    <div class="space-y-1">
+      <h1 class="text-white text-lg font-semibold tracking-tight">Find a free room</h1>
+      <p class="text-sm text-neutral-500">Pick a date on the calendar and a time — see every room with no class scheduled right then, across all sections.</p>
+    </div>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="bg-[#050505] border border-neutral-900 rounded-xl p-5 flex flex-col justify-between space-y-4">
+        <div>
+          <h3 class="text-white text-sm font-semibold tracking-tight">Selected</h3>
+          <p id="selected-date-string" class="text-xs text-neutral-500 mt-1">Loading…</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-mono text-neutral-500">Time</label>
+          <input id="time-input" type="time" value="11:00"
+            class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-md px-3 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-700 font-mono [color-scheme:dark]">
+        </div>
+
+        <button id="check-btn" class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-neutral-800 disabled:text-neutral-600 text-white text-sm font-medium py-2.5 rounded-md transition-colors font-mono">
+          Check available rooms
+        </button>
+
+        <p id="status-line" class="text-[11px] font-mono text-neutral-600 leading-snug">Loading routine data…</p>
+      </div>
+
+      <div class="md:col-span-2 bg-[#050505] border border-neutral-900 rounded-xl p-5 space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 id="calendar-month-year" class="text-white text-sm font-semibold tracking-tight font-mono">Loading Month...</h3>
+            <p class="text-xs text-neutral-500 mt-0.5">Click a date to check that day's room availability.</p>
+          </div>
+          <div class="flex gap-1.5">
+            <button id="prev-month" class="bg-[#111] border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white p-1.5 rounded transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button id="next-month" class="bg-[#111] border border-neutral-800 hover:bg-neutral-900 text-neutral-400 hover:text-white p-1.5 rounded transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-7 gap-1 text-center text-[11px] font-mono">
+          <div class="text-neutral-600 font-medium py-1">SUN</div>
+          <div class="text-neutral-600 font-medium py-1">MON</div>
+          <div class="text-neutral-600 font-medium py-1">TUE</div>
+          <div class="text-neutral-600 font-medium py-1">WED</div>
+          <div class="text-red-500 font-medium py-1">THU</div>
+          <div class="text-red-500 font-medium py-1">FRI</div>
+          <div class="text-neutral-600 font-medium py-1">SAT</div>
+        </div>
+        <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center text-xs font-mono"></div>
+
+        <div class="flex items-center gap-4 pt-1 text-[10px] font-mono text-neutral-600">
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> Selected</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span> Holiday</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-neutral-700 inline-block"></span> Today</div>
+        </div>
+      </div>
+    </section>
+
+    <div id="holiday-banner" class="hidden bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-mono px-4 py-3 rounded-xl"></div>
+
+    <div class="space-y-3">
+      <div class="flex justify-between items-baseline">
+        <h2 class="text-white text-sm font-semibold tracking-tight">Empty Rooms</h2>
+        <span id="result-summary" class="text-xs font-mono text-neutral-500"></span>
+      </div>
+      <div id="empty-rooms-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+    </div>
+
+    <details class="bg-[#050505] border border-neutral-900 rounded-xl p-5">
+      <summary class="text-white text-sm font-semibold cursor-pointer">Rooms in use right now</summary>
+      <div id="busy-rooms-list" class="mt-4 space-y-2 text-xs font-mono"></div>
+    </details>
+
+  </main>
+
+  <footer class="border-t border-neutral-900 bg-[#000000] mt-16">
+    <div class="max-w-3xl mx-auto px-6 py-8 text-center text-xs text-neutral-600 font-mono">
+      Data source: <a href="https://github.com/s8rr/class-routine" class="text-neutral-400 hover:text-white">s8rr/class-routine</a>
+    </div>
+  </footer>
+
+<script>
+const DATA_URL = "data/routine_data.json";
+const VALID_ROOM_PATTERN = /^\d{3,4}$/; // real rooms are 3-4 digit numbers; filters out data typos like "03"
+const DAY_NAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTH_NAMES = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+let routineData = null;
+let allRooms = new Set();
+let holidays = {}; // "YYYY-MM-DD" -> {type, name}
+
+let today = new Date();
+today.setHours(0,0,0,0);
+
+let selectedDate = new Date(today);
+let viewYear = today.getFullYear();
+let viewMonth = today.getMonth(); // 0-indexed
+
+const statusLine = document.getElementById('status-line');
+const timeInput = document.getElementById('time-input');
+const checkBtn = document.getElementById('check-btn');
+const emptyGrid = document.getElementById('empty-rooms-grid');
+const busyList = document.getElementById('busy-rooms-list');
+const resultSummary = document.getElementById('result-summary');
+const selectedDateString = document.getElementById('selected-date-string');
+const holidayBanner = document.getElementById('holiday-banner');
+const calMonthYear = document.getElementById('calendar-month-year');
+const calGrid = document.getElementById('calendar-days-grid');
+
+function dateKey(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function parseTimeToMinutes(str) {
+  const m = str.trim().match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!m) return null;
+  let [_, h, min, ap] = m;
+  h = parseInt(h, 10);
+  min = parseInt(min, 10);
+  ap = ap.toUpperCase();
+  if (ap === "PM" && h !== 12) h += 12;
+  if (ap === "AM" && h === 12) h = 0;
+  return h * 60 + min;
+}
+
+function parseRange(rangeStr) {
+  const [startStr, endStr] = rangeStr.split(" - ");
+  return { start: parseTimeToMinutes(startStr), end: parseTimeToMinutes(endStr) };
+}
+
+function formatMinutes(mins) {
+  let h = Math.floor(mins / 60);
+  const m = mins % 60;
+  const ap = h >= 12 ? "PM" : "AM";
+  h = h % 12;
+  if (h === 0) h = 12;
+  return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")} ${ap}`;
+}
+
+async function loadData() {
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error("Network response was not ok");
+    routineData = await res.json();
+    holidays = routineData.exceptions || {};
+
+    const weekly = routineData.weekly_routine || {};
+    const invalidRoomCodes = new Set();
+    Object.values(weekly).forEach(sectionRoutine => {
+      Object.values(sectionRoutine).forEach(daySlots => {
+        daySlots.forEach(slot => {
+          const room = (slot.room || "").trim();
+          if (!room) return;
+          if (VALID_ROOM_PATTERN.test(room)) {
+            allRooms.add(room);
+          } else {
+            invalidRoomCodes.add(room);
+          }
+        });
+      });
+    });
+
+    let statusMsg = `Loaded ${Object.keys(weekly).length} sections · ${allRooms.size} known rooms`;
+    if (invalidRoomCodes.size > 0) {
+      statusMsg += ` · ignored malformed room code(s): ${[...invalidRoomCodes].join(", ")}`;
+    }
+    statusLine.textContent = statusMsg;
+    checkBtn.disabled = false;
+
+    renderCalendar();
+    runCheck();
+  } catch (err) {
+    statusLine.textContent = "Failed to load routine data. Check your connection and try refreshing.";
+    console.error(err);
+  }
+}
+
+function renderCalendar() {
+  calMonthYear.textContent = `${MONTH_NAMES[viewMonth]} ${viewYear}`;
+  calGrid.innerHTML = "";
+
+  const firstOfMonth = new Date(viewYear, viewMonth, 1);
+  const startWeekday = firstOfMonth.getDay(); // 0 = Sun
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const daysInPrevMonth = new Date(viewYear, viewMonth, 0).getDate();
+
+  const totalCells = Math.ceil((startWeekday + daysInMonth) / 7) * 7;
+
+  for (let i = 0; i < totalCells; i++) {
+    const dayNum = i - startWeekday + 1;
+    let cellDate, muted = false;
+
+    if (dayNum < 1) {
+      cellDate = new Date(viewYear, viewMonth - 1, daysInPrevMonth + dayNum);
+      muted = true;
+    } else if (dayNum > daysInMonth) {
+      cellDate = new Date(viewYear, viewMonth + 1, dayNum - daysInMonth);
+      muted = true;
+    } else {
+      cellDate = new Date(viewYear, viewMonth, dayNum);
+    }
+
+    const key = dateKey(cellDate);
+    const isToday = key === dateKey(today);
+    const isSelected = key === dateKey(selectedDate);
+    const isHoliday = !!holidays[key];
+
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "cal-day relative py-2 rounded-md transition-colors hover:bg-neutral-900" +
+      (muted ? " is-muted" : " text-neutral-300") +
+      (isSelected ? " bg-blue-600 !text-white" : "") +
+      (isToday && !isSelected ? " border border-neutral-700" : "");
+    cell.textContent = cellDate.getDate();
+
+    if (isHoliday) {
+      const dot = document.createElement("span");
+      dot.className = "absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-500";
+      cell.appendChild(dot);
+    }
+
+    cell.addEventListener("click", () => {
+      selectedDate = cellDate;
+      if (muted) {
+        viewYear = cellDate.getFullYear();
+        viewMonth = cellDate.getMonth();
+      }
+      renderCalendar();
+      runCheck();
+    });
+
+    calGrid.appendChild(cell);
+  }
+}
+
+document.getElementById('prev-month').addEventListener('click', () => {
+  viewMonth--;
+  if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+  renderCalendar();
+});
+document.getElementById('next-month').addEventListener('click', () => {
+  viewMonth++;
+  if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+  renderCalendar();
+});
+
+function runCheck() {
+  if (!routineData) return;
+
+  const day = DAY_NAMES[selectedDate.getDay()];
+  const key = dateKey(selectedDate);
+  const holiday = holidays[key];
+
+  selectedDateString.textContent = selectedDate.toLocaleDateString('en-US', {
+    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+  });
+
+  if (holiday) {
+    holidayBanner.textContent = `Holiday: ${holiday.name} — no classes scheduled, every room is free all day.`;
+    holidayBanner.classList.remove('hidden');
+  } else {
+    holidayBanner.classList.add('hidden');
+  }
+
+  const [hh, mm] = timeInput.value.split(":").map(Number);
+  const queryMinutes = hh * 60 + mm;
+
+  const busyRooms = new Map();
+  const roomDaySlots = new Map();
+
+  if (!holiday) {
+    const weekly = routineData.weekly_routine || {};
+    Object.entries(weekly).forEach(([section, sectionRoutine]) => {
+      const daySlots = sectionRoutine[day] || [];
+      daySlots.forEach(slot => {
+        const room = (slot.room || "").trim();
+        if (!VALID_ROOM_PATTERN.test(room)) return;
+        const range = parseRange(slot.time);
+        if (range.start === null || range.end === null) return;
+
+        if (!roomDaySlots.has(room)) roomDaySlots.set(room, []);
+        roomDaySlots.get(room).push(range);
+
+        if (queryMinutes >= range.start && queryMinutes < range.end) {
+          if (!busyRooms.has(room)) busyRooms.set(room, []);
+          busyRooms.get(room).push({ section, subject: slot.subject, time: slot.time, teacher: slot.teacher });
+        }
+      });
+    });
+  }
+
+  const emptyRooms = [...allRooms]
+    .filter(r => !busyRooms.has(r))
+    .map(room => {
+      const slots = roomDaySlots.get(room) || [];
+      const nextStart = slots.map(s => s.start).filter(start => start > queryMinutes).sort((a, b) => a - b)[0];
+      return { room, freeUntil: nextStart !== undefined ? nextStart : null };
+    })
+    .sort((a, b) => a.room.localeCompare(b.room, undefined, { numeric: true }));
+
+  emptyGrid.innerHTML = "";
+  if (emptyRooms.length === 0) {
+    emptyGrid.innerHTML = `<div class="col-span-full text-sm text-neutral-500 font-mono py-4 text-center">No free rooms found at this time.</div>`;
+  } else {
+    emptyRooms.forEach(({ room, freeUntil }) => {
+      const label = freeUntil !== null ? `Free until ${formatMinutes(freeUntil)}` : `Free for rest of day`;
+      const el = document.createElement("div");
+      el.className = "bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-center py-2.5 px-1 flex flex-col items-center gap-0.5";
+      el.innerHTML = `
+        <span class="text-emerald-400 text-sm font-mono">${room}</span>
+        <span class="text-emerald-600 text-[10px] font-mono">${label}</span>
+      `;
+      emptyGrid.appendChild(el);
+    });
+  }
+
+  resultSummary.textContent = `${emptyRooms.length} free / ${allRooms.size} rooms · ${day} ${timeInput.value}`;
+
+  busyList.innerHTML = "";
+  if (busyRooms.size === 0) {
+    busyList.innerHTML = `<div class="text-neutral-600">No classes running at this time.</div>`;
+  } else {
+    [...busyRooms.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true }))
+      .forEach(([room, entries]) => {
+        entries.forEach(e => {
+          const row = document.createElement("div");
+          row.className = "flex justify-between border-b border-neutral-900 pb-2";
+          row.innerHTML = `
+            <span class="text-white">Room ${room}</span>
+            <span class="text-neutral-500">${e.section} · ${e.subject} · ${e.teacher} · ${e.time}</span>
+          `;
+          busyList.appendChild(row);
+        });
+      });
+  }
+}
+
+checkBtn.addEventListener("click", runCheck);
+timeInput.addEventListener("change", runCheck);
+
+checkBtn.disabled = true;
+loadData();
+</script>
+</body>
+</html>
