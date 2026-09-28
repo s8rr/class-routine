@@ -4,8 +4,8 @@
     "default_mode": "\"class\" or \"exam\" - what visitors see when they open the site. They can still switch with the toggle.",
     "exams": "One entry per course. date = YYYY-MM-DD, semester = \"1\" to \"8\" (as text)."
   },
-  "enabled": false,
-  "default_mode": "exam",
+  "enabled": true,
+  "default_mode": "class",
   "title": "Final Examination",
   "term": "Spring 2026",
   "exams": [
