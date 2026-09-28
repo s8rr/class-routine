@@ -1,0 +1,24 @@
+{
+  "_help": {
+    "how_to_use": "Add your mid exams to the exams list (same format as exam.json), then set enabled to true.",
+    "enabled": "true = show a Mid button in the navbar toggle and use these dates in the Class view.",
+    "classes_off_after": "false for mid: classes resume after the mid exams.",
+    "_example": {
+      "date": "2026-08-10",
+      "time": "10:00 AM - 01:00 PM",
+      "semester": "1",
+      "code": "CSE 1113",
+      "name": "Programming Fundamentals"
+    }
+  },
+  "id": "mid",
+  "label": "Mid",
+  "enabled": false,
+  "default_mode": "class",
+  "class_view_exams": true,
+  "classes_off_during": true,
+  "classes_off_after": false,
+  "title": "Mid Examination",
+  "term": "Spring 2026",
+  "exams": []
+}
