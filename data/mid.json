@@ -3,13 +3,7 @@
     "how_to_use": "Add your mid exams to the exams list (same format as exam.json), then set enabled to true.",
     "enabled": "true = show a Mid button in the navbar toggle and use these dates in the Class view.",
     "classes_off_after": "false for mid: classes resume after the mid exams.",
-    "_example": {
-      "date": "2026-08-10",
-      "time": "10:00 AM - 01:00 PM",
-      "semester": "1",
-      "code": "CSE 1113",
-      "name": "Programming Fundamentals"
-    }
+    "_example": { "date": "2026-08-10", "time": "10:00 AM - 01:00 PM", "semester": "1", "code": "CSE 1113", "name": "Programming Fundamentals" }
   },
   "id": "mid",
   "label": "Mid",
@@ -20,5 +14,17 @@
   "classes_off_after": false,
   "title": "Mid Examination",
   "term": "Spring 2026",
-  "exams": []
+  "exams": [
+    { "date": "2026-08-08", "time": "10:00 AM - 12:00 PM", "semester": "1", "code": "MAT 1203", "name": "Differential and Integral Calculus" },
+    { "date": "2026-08-08", "time": "02:00 PM - 04:00 PM", "semester": "5", "code": "CSE 3733", "name": "Operating Systems" },
+    { "date": "2026-08-09", "time": "10:00 AM - 12:00 PM", "semester": "2", "code": "EEE 1201", "name": "Electronics Devices and Circuits" },
+    { "date": "2026-08-09", "time": "02:00 PM - 04:00 PM", "semester": "6", "code": "CSE 3567", "name": "Computer Networks" },
+    { "date": "2026-08-10", "time": "10:00 AM - 12:00 PM", "semester": "3", "code": "CSE 1115", "name": "Object Oriented Programming" },
+    { "date": "2026-08-10", "time": "02:00 PM - 04:00 PM", "semester": "7", "code": "CSE 4311", "name": "Machine Learning" },
+    { "date": "2026-08-11", "time": "10:00 AM - 12:00 PM", "semester": "4", "code": "CSE 2221", "name": "Database Management Systems" },
+    { "date": "2026-08-11", "time": "02:00 PM - 04:00 PM", "semester": "8", "code": "ACC 1501", "name": "Financial and Managerial Accounting" },
+    { "date": "2026-08-12", "time": "10:00 AM - 12:00 PM", "semester": "1", "code": "ENG 1101", "name": "General English" },
+    { "date": "2026-08-12", "time": "02:00 PM - 04:00 PM", "semester": "5", "code": "CSE 3737", "name": "Computer Organization & Architecture" }
+  ],
+  "_note": "DUMMY DATA (Aug 8-12) for testing. Replace with the real mid routine. Set enabled to true to show it on the site."
 }
