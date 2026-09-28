@@ -2,10 +2,12 @@
   "_help": {
     "enabled": "true = show the Class/Exam toggle in the navbar. false = hide it and show only the normal routine.",
     "default_mode": "\"class\" or \"exam\" - what visitors see when they open the site. They can still switch with the toggle.",
+    "class_view_exams": "true (default) = on exam days the normal Class view shows the selected semester's exams instead of classes. false = Class view never shows exams.",
     "exams": "One entry per course. date = YYYY-MM-DD, semester = \"1\" to \"8\" (as text)."
   },
   "enabled": true,
   "default_mode": "class",
+  "class_view_exams": true,
   "title": "Final Examination",
   "term": "Spring 2026",
   "exams": [
