@@ -1,0 +1,54 @@
+name: Generate Routine Images
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'generate_images.py'
+      - 'data/img_data.json'     # <--- TRIGGERS WHEN IMG_DATA.JSON CHANGES
+      
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-push-images:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install matplotlib
+
+      - name: Run Image Generation Script
+        run: |
+          python generate_images.py
+
+      - name: Commit and Push Images
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add routine_images/
+          
+          if git diff --staged --quiet; then
+            echo "✅ No new or updated images to push."
+          else
+            echo "🚀 Pushing new routine images to repository!"
+            git commit -m "Auto-generate section routine images [bot]"
+            git pull --rebase origin main
+            git push
+          fi
